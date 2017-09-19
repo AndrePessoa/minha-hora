@@ -19,7 +19,7 @@ export default class Help extends Component {
         return (
             <div className={['help', status].join(" ")}>
                 <div className="header" onClick={this.onClick}>
-                    {this.props.header}<span className="close">{button}</span>
+                <span className="text">{this.props.header}</span><span className="close">{button}</span>
                 </div>
                 <div className="body">
                     {this.props.children}

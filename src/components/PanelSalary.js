@@ -8,8 +8,7 @@ export default class PanelSalary extends Panel {
       super(props);
       this.state = {
         status: false,
-        teste: true,
-        salario: "0.00"
+        salary: "0.00"
       };
 
       this.handleInputChange = this.handleInputChange.bind(this);
@@ -22,8 +21,9 @@ export default class PanelSalary extends Panel {
         <div className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
           <p>Quanto você quer ganhar por mês?</p>         
           <CurrencyInput 
-            ref="salario" 
-            value={this.state.salario}
+            name="salary"
+            ref="salary" 
+            value={this.state.salary}
             decimalSeparator=","
             thousandSeparator="."
             onChangeEvent={this.handleInputCurrencyChange}
@@ -33,7 +33,7 @@ export default class PanelSalary extends Panel {
                 <p>Quanto você quer ganhar mensalmente como salário líquido, já descontados todos os custos e impostos.</p>
                 <p>Imagine que você é um funcionário de si mesmo.</p>
             </Help>
-          <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>Pronto</button>
+          <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>pronto!</button>
         </div>
       );
     }

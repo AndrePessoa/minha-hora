@@ -17,21 +17,33 @@ export default class Panel extends Component {
       const name = target.name;
 
       this.setState({
-        [name]: value,
-        status: this.state.data.che
+        [name]: value
+      },()=>{
+        this.props.onChange(this.state);
+        this.setState({
+          status: this.props.data.checkData(this.props.step)
+        }); 
       });
-      this.props.onChange(this.state);
-      this.setState({
-        status: this.state.data.checkData(this.props.step)
-      });      
+     
     }
 
     handleInputCurrencyChange(event, maskedvalue, floatvalue){
-      this.setState({ salario: floatvalue });
-      this.props.onChange(this.state);
-      this.setState({
-        status: this.props.data.checkData(this.props.step)
-      });      
+      const name = event.target.name;
+      this.setState({ [name]: floatvalue },()=>{
+        this.props.onChange(this.state);
+        this.setState({
+          status: this.props.data.checkData(this.props.step)
+        }); 
+      });     
+    }
+
+    handleSelectChange(data){
+        this.setState(data, ()=>{
+          this.props.onChange(this.state);
+          this.setState({
+            status: this.props.data.checkData(this.props.step)
+          });
+        });
     }
 
     next(event){

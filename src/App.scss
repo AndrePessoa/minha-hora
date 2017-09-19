@@ -2,8 +2,11 @@ $yellow: #EFF286;
 $pri-color: #2A3247;
 $sec-color: #69758E;
 
+$small-screen: 768px;
+
 @import url('https://fonts.googleapis.com/css?family=Lato|Maven+Pro');
 @import "scss/_reset";
+@import "../node_modules/react-select/dist/react-select.css";
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -25,11 +28,15 @@ body{
   margin: 0;
   padding: 0;
   background-color: $pri-color;
+  background: linear-gradient(to right, lighten($pri-color,5%) 0%,$pri-color 6%, $pri-color 94%, lighten($pri-color,2.5%) 100%);
+
+  @media screen and ( max-width: $small-screen ) {
+    background: linear-gradient(to right, lighten($pri-color,1.5%) 0%,$pri-color 6%, $pri-color 94%, lighten($pri-color,2.5%) 100%)
+  }
 }
 
 .app {
   text-align: center;
-  background-color: $pri-color;
 }
 
 @import "scss/_global";
