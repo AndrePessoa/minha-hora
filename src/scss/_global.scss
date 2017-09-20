@@ -6,6 +6,12 @@ main{
     width: 50vw;
     float: left;
 
+    p {
+        color: white;
+        margin-bottom: 1em;
+        line-height: 1.5em;
+    }
+
     #logo{
         color: #FFFFFF;
         display: block;
@@ -90,6 +96,7 @@ main{
 
             input[type=text],
             input[type=number],
+            input[type=email],
             .Select-control{
                 border: 2px solid $sec-color;
                 border-radius: 4px 4px 4px 4px;
@@ -114,6 +121,8 @@ main{
                 font-size: 23px;
                 font-weight: bold;
                 text-align: right;
+                margin-bottom: 0.5em;
+                line-height: 1.1em;
             }
 
             .help {

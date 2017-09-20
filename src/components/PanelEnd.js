@@ -40,11 +40,11 @@ export default class PanelEnd extends Panel {
             <button className={['btn', (this.state.status?"":"btn-disabled"), ( !this.state.closed ? 'hidden' : '' )].join(' ')} disabled={!this.state.status} onClick={this.open}>me manda?</button>
             <div className={ [ this.state.closed ? "hidden" : ""].join(' ') }>
                 <p>Seus dados para o envio</p> 
-                <p>Os dados ao lado serão enviados para o</p> 
-                <p>seu e-mail, além de um arquivo XLS(planilha).</p>          
+                <p>Os dados ao lado serão enviados para o seu e-mail, além de um arquivo XLS(planilha).</p>          
                 <input 
                     name="email"
-                    type="text"
+                    type="email"
+                    placeholder="Seu email"
                     value={this.state.email}
                     />
                 <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.send}>pode mandar!</button>

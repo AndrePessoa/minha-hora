@@ -6,6 +6,7 @@ import PanelResult from './components/PanelResult.js';
 import PanelResources from './components/PanelResources.js';
 import PanelEnd from './components/PanelEnd.js';
 import Logo from './components/Logo.svg.js';
+import Illustrations from './components/Illustrations.svg.js';
 import DataController from './controllers/dataController.js'
 
 class App extends Component {
@@ -39,7 +40,7 @@ class App extends Component {
   }
 
   goToPanel(e){
-    if( e.target.attributes['disabled'] ) return false;
+    //if( e.target.attributes['disabled'] ) return false;
     this.setState({ currentStep: parseInt( e.target.attributes['data-index'].value, 10 ) });
   }
 
@@ -112,6 +113,7 @@ class App extends Component {
           </div>
         </main> 
         <aside>
+          <Illustrations />
         </aside>     
       </div>
     );
