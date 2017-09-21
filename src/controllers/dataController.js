@@ -19,6 +19,9 @@ export default Object.assign({
             case 3:
                 ret = this.checkData(0) && this.checkData(1) && this.checkData(2);
             break;
+            case 4:
+                ret = this.checkData(0) && this.checkData(1) && this.checkData(2);
+            break;
             default:
                 ret = false;
         }

@@ -4,7 +4,7 @@ export default class Illustrations extends Component {
     render() {
         return (
             <div id="illustrations">
-<div id="illustrations-1" className="illustration" >
+<div id="illustrations-1" className={["illustration", ( this.props.step === 0 ? "active" : "" )].join(" ")} >
     {/* ILLUSTRARION */}
     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
         width="452.941px" height="707.059px" viewBox="0 0 452.941 707.059" enableBackground="new 0 0 452.941 707.059"
@@ -37,7 +37,7 @@ export default class Illustrations extends Component {
         </g>
     </svg>
 </div>
-<div id="illustrations-2" className="illustration" > 
+<div id="illustrations-2" className={["illustration", ( this.props.step === 1 ? "active" : "" )].join(" ")} >
     {/* ILLUSTRARION */}
     <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
             width="453px" height="705px" viewBox="0 0 453 705" enableBackground="new 0 0 453 705">
@@ -78,7 +78,7 @@ export default class Illustrations extends Component {
         <polygon fill="#FFFFFF" points="236.751,480.543 349.285,492.561 339.241,566.479 233.135,555.54 "/>
     </svg>
 </div>    
-<div id="illustrations-3" className="illustration" >
+<div id="illustrations-3" className={["illustration", ( this.props.step === 2 ? "active" : "" )].join(" ")} >
     {/* ILLUSTRARION */}
     <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
         width="453px" height="705px" viewBox="0 0 453 705" enableBackground="new 0 0 453 705">
@@ -111,7 +111,7 @@ export default class Illustrations extends Component {
             C327.125,174,327,174.125,327.125,171.375z"/>
     </svg>
 </div>    
-<div id="illustrations-4" className="illustration" >
+<div id="illustrations-4" className={["illustration", ( this.props.step === 3 ? "active" : "" )].join(" ")} >
     {/* ILLUSTRARION */}
     <svg version="1.1" id="Layer_4" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
         width="453px" height="705px" viewBox="0 0 453 705" enableBackground="new 0 0 453 705">

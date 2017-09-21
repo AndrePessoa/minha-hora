@@ -1,17 +1,15 @@
 import React from 'react';
 import Panel from './Panel.js';
 import Help from './Help.js';
+import CurrencyInput from 'react-currency-input';
 
-export default class PanelHours extends Panel {
+export default class PanelFormComplete extends Panel {
     constructor(props) {
       super(props);
-      this.state = {
-        status: false,
-        hours: 0,
-        days: 0
-      };
+      this.state = this.props.data;
 
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleInputCurrencyChange = this.handleInputCurrencyChange.bind(this);
       this.next = this.next.bind(this);
     }
 
@@ -22,7 +20,15 @@ export default class PanelHours extends Panel {
     render() {
       return (
         <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-            <p>Quer trabalhar quantos dias por semana?</p>
+            <CurrencyInput 
+                name="salary"
+                ref="salary" 
+                value={this.state.salary}
+                decimalSeparator=","
+                thousandSeparator="."
+                onChangeEvent={this.handleInputCurrencyChange}
+                prefix="R$ "
+                />
             <input
                 ref="days"
                 type="number"
@@ -32,10 +38,6 @@ export default class PanelHours extends Panel {
                 required
                 onChange={this.handleInputChange}
                 />
-            <Help header="">
-                <p>Quais dias você pretende se dedicar ao trabalho diretamente e indiretamente.</p>
-            </Help>
-            <p>E quantas horas por dia?</p>
             <input 
                 type="number"
                 min="1"
@@ -47,7 +49,6 @@ export default class PanelHours extends Panel {
             <Help header="">
                 <p>Quantas horas por dia você pretende disponibilizar, tanto na tarefa em si, como em tarefas relacionadas.</p>
             </Help>
-            <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>pronto!</button>
         </form>
       );
     }

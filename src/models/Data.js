@@ -17,8 +17,10 @@ export default {
     place_percent: 0,
     software_buy_cost: 0,
     software_rent_cost: 0,
+    software_life_circle: 1,
     hardware_buy_cost: 0,
     hardware_sell_cost: 0,
+    hardware_life_circle: 1,
     tax: null,
     // personal cost
     health_plan: 0,

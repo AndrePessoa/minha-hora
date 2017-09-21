@@ -46,8 +46,13 @@ export default class Panel extends Component {
         });
     }
 
+    setFocus(){
+      console.log("Focus getted");
+    }
+
     next(event){
-      this.props.onNext();
+      if( this.props.data.checkData(this.props.step) )  this.props.onNext();
+      event.preventDefault();
     }
 
     render() {

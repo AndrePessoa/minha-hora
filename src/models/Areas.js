@@ -70,7 +70,7 @@ export default [
         description: "Lorem ipsum",
         software: {
             buy: 3500,
-            sell: 0
+            rent: 0
         },
         hardware: {
             buy: 5000,

@@ -15,11 +15,10 @@ export default class Help extends Component {
 
     render(){
         var status = this.state.open ? "opened" : "closed" ;
-        var button = this.state.open ? "[x]" : "[?]" ;
         return (
             <div className={['help', status].join(" ")}>
                 <div className="header" onClick={this.onClick}>
-                <span className="text">{this.props.header}</span><span className="close">{button}</span>
+                <span className="text">{this.props.header}</span><span className={["close",( this.state.open ? "opened" : "closed" )].join(" ")}></span>
                 </div>
                 <div className="body">
                     {this.props.children}

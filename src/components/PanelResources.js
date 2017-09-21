@@ -14,8 +14,8 @@ export default class PanelResources extends Panel {
             { "value": "programacao", "label":"Programação" },
             { "value": "design-grafico", "label":"Design gráfico" }
         ],
-        area: 0,
-        room: 0
+        area: null,
+        room: null
       };
 
       this.handleArea = this.handleArea.bind(this);
@@ -55,11 +55,16 @@ export default class PanelResources extends Panel {
         });
     }
 
+    setFocus(){
+        setTimeout(()=>{ this.refs.area.focus(); } , 100 );
+    }
+
     render() {
       return (
-        <div className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
+        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
             <p>qual a sua área de atuação?</p>
             <Select 
+                ref="area"
                 name="area"
                 value={this.state.area}
                 options={Areas}
@@ -80,7 +85,7 @@ export default class PanelResources extends Panel {
                 <p>Esse espaço pode ser compartilhado ou estar inserido dentro de outros contextos.</p>
             </Help>
             <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>pronto!</button>
-        </div>
+        </form>
       );
     }
 }

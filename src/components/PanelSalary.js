@@ -16,9 +16,13 @@ export default class PanelSalary extends Panel {
       this.next = this.next.bind(this);
     }
 
+    componentDidMount(){
+      this.refs.salary.theInput.focus();
+    }
+
     render() {
       return (
-        <div className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
+        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
           <p>Quanto você quer ganhar por mês?</p>         
           <CurrencyInput 
             name="salary"
@@ -34,7 +38,7 @@ export default class PanelSalary extends Panel {
                 <p>Imagine que você é um funcionário de si mesmo.</p>
             </Help>
           <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>pronto!</button>
-        </div>
+        </form>
       );
     }
 }
