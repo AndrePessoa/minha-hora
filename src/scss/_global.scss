@@ -1,3 +1,5 @@
+@import '_animations';
+
 .hidden{
     display: none;
 }
@@ -157,13 +159,14 @@ nav ul{
         color: $pri-color;
         background: white;
         border-radius: 5px; 
+        border: 3px solid rgba(0, 0, 0, 0);
         transform: rotate(0);
-        transition: all 0.5;
         font-size: 16px;
         font-weight: bold;
         //margin: 0 85px;
         padding: 6px 25px 9px;
-        cursor: pointer;  
+        cursor: pointer;
+        transition: all 0.5;
 
         &[disabled]{
             background: $sec-color;
@@ -172,6 +175,10 @@ nav ul{
 
         &:active{                    
             transform: rotate(6deg);
+        }
+
+        &:focus{
+            border: 3px solid gray;
         }
 
     } 

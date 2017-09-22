@@ -1,0 +1,65 @@
+@keyframes cifrao {
+    0%{ transform:  translate( 0, 0 ); }
+    100%{ transform:  translate( 0, -20% ); }
+}
+
+.cifrao{
+    transform-origin: 50% 30%;
+    animation-name: cifrao;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes sol-e-lua {
+    0%{ transform:  rotate( 0deg ); }
+    100%{ transform:  rotate( 360deg ); }
+}
+
+.cenario{
+    transform-origin: 50% 50%;
+    animation-name: sol-e-lua;
+    animation-duration: 60s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes sol-e-lua-reverse {
+    0%{ transform:  rotate( 360deg ); }
+    100%{ transform:  rotate( 0deg ); }
+}
+
+.cenario > g{
+    transform-origin: 50% 50%;
+    animation-name: sol-e-lua-reverse;
+    animation-duration: 60s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes braco-direito {
+    0%{ transform:  rotate( 0deg ); }
+    100%{ transform:  rotate( 5deg ); }
+}
+
+.braco-direito{
+    transform-origin: 98% 50%;
+    animation-name: braco-direito;
+    animation-duration: 0.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;   
+}
+
+@keyframes braco-esquerdo {
+    0%{ transform:  rotate( 5deg ); }
+    100%{ transform:  rotate( 0deg ); }
+}
+
+.braco-esquerdo{
+    transform-origin: 100% 50%;
+    animation-name: braco-esquerdo;
+    animation-duration: 0.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;   
+}
