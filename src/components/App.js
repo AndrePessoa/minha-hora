@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import './App.scss';
-import PanelSalary from './components/PanelSalary.js';
-import PanelHours from './components/PanelHours.js';
-import PanelResult from './components/PanelResult.js';
-import PanelResources from './components/PanelResources.js';
-import PanelEnd from './components/PanelEnd.js';
-import PanelFormComplete from './components/PanelFormComplete.js';
-import Logo from './components/Logo.svg.js';
-import Illustrations from './components/Illustrations.svg.js';
-import DataController from './controllers/dataController.js';
+import '../App.scss';
+import PanelSalary from './PanelSalary.js';
+import PanelHours from './PanelHours.js';
+import PanelResult from './PanelResult.js';
+import PanelResources from './PanelResources.js';
+import PanelEnd from './PanelEnd.js';
+import PanelFormComplete from './PanelFormComplete.js';
+import Logo from './Logo.svg.js';
+import Illustrations from './Illustrations.svg.js';
+import DataController from '../controllers/dataController.js';
 
 class App extends Component {
 
