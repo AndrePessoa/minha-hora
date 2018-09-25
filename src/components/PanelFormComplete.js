@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Panel from './Panel.js';
 import Help from './Help.js';
 import CurrencyInput from 'react-currency-input';
 
-export default class PanelFormComplete extends Panel {
+class PanelFormComplete extends Panel {
     constructor(props) {
       super(props);
       this.state = this.props.data;
@@ -18,33 +21,18 @@ export default class PanelFormComplete extends Panel {
     }
 
     render() {
+        var status = true;
+
       return (
-        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
+        <form onSubmit={this.next} className={['panel', (status?"panel-complete":""),this.props.className].join(' ')}>
             <CurrencyInput 
                 name="salary"
                 ref="salary" 
-                value={this.state.salary}
+                value={this.props.inputs.salary}
                 decimalSeparator=","
                 thousandSeparator="."
-                onChangeEvent={this.handleInputCurrencyChange}
+                onChangeEvent={this.props.changeSalary}
                 prefix="R$ "
-                />
-            <input
-                ref="days"
-                type="number"
-                min="1"
-                max="7"
-                name="days"
-                required
-                onChange={this.handleInputChange}
-                />
-            <input 
-                type="number"
-                min="1"
-                max="24"
-                name="hours"
-                required
-                onChange={this.handleInputChange}
                 />
             <Help header="">
                 <p>Quantas horas por dia você pretende disponibilizar, tanto na tarefa em si, como em tarefas relacionadas.</p>
@@ -53,3 +41,28 @@ export default class PanelFormComplete extends Panel {
       );
     }
 }
+
+
+/* Reduxing */
+
+function mapStateToProps(state) {
+    return { 
+      inputs: state.inputs,
+      panels: state.panels
+    }
+  }
+  
+  export function changeSalary(value) {
+    return {
+      type: 'UPDATE_SALARY',
+      value
+    }
+  }
+  
+  const mapDispatchToProps = dispatch =>({
+    changeSalary( event, maskedvalue, floatvalue ){
+      return dispatch(changeSalary( floatvalue ));
+    }
+  });
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(PanelFormComplete)

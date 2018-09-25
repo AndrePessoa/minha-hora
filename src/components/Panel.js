@@ -51,7 +51,6 @@ export default class Panel extends Component {
     }
 
     next(event){
-      if( this.props.data.checkData(this.props.step) )  this.props.onNext();
       event.preventDefault();
     }
 

@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Panel from './Panel.js';
 import Help from './Help.js';
 
-export default class PanelHours extends Panel {
+class PanelHours extends Panel {
     constructor(props) {
       super(props);
       this.state = {
@@ -20,35 +23,72 @@ export default class PanelHours extends Panel {
     }
 
     render() {
-      return (
-        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-            <p>Quer trabalhar quantos dias por semana?</p>
-            <input
-                ref="days"
-                type="number"
-                min="1"
-                max="7"
-                name="days"
-                required
-                onChange={this.handleInputChange}
-                />
-            <Help header="">
-                <p>Quais dias você pretende se dedicar ao trabalho diretamente e indiretamente.</p>
-            </Help>
-            <p>E quantas horas por dia?</p>
-            <input 
-                type="number"
-                min="1"
-                max="24"
-                name="hours"
-                required
-                onChange={this.handleInputChange}
-                />
-            <Help header="">
-                <p>Quantas horas por dia você pretende disponibilizar, tanto na tarefa em si, como em tarefas relacionadas.</p>
-            </Help>
-            <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>pronto!</button>
-        </form>
+        const { hours, days } = this.props.inputs;
+        const status = this.props.panels.hours;
+
+        return (
+            <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
+                <p>Quer trabalhar quantos dias por semana?</p>
+                <input
+                    ref="days"
+                    type="number"
+                    min="1"
+                    max="7"
+                    name="days"
+                    defaultValue={days}
+                    required
+                    onChange={this.props.changeHours}
+                    />
+                <Help header="">
+                    <p>Quais dias você pretende se dedicar ao trabalho diretamente e indiretamente.</p>
+                </Help>
+                <p>E quantas horas por dia?</p>
+                <input 
+                    type="number"
+                    min="1"
+                    max="24"
+                    name="hours"
+                    defaultValue={hours}
+                    required
+                    onChange={this.props.changeDays}
+                    />
+                <Help header="">
+                    <p>Quantas horas por dia você pretende disponibilizar, tanto na tarefa em si, como em tarefas relacionadas.</p>
+                </Help>
+                <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/resources":""}>pronto!</Link>
+            </form>
       );
     }
 }
+
+function mapStateToProps(state) {
+    return { 
+      inputs: state.inputs,
+      panels: state.panels
+    }
+}
+  
+export function changeDays(value) {
+    return {
+        type: 'UPDATE_DAYS',
+        value
+    }
+}  
+
+export function changeHours(value) {
+    return {
+        type: 'UPDATE_HOURS',
+        value
+    }
+}
+  
+const mapDispatchToProps = dispatch =>({
+    changeDays( event ){
+        return dispatch(changeDays( event.target.value ));
+    },
+    changeHours( event ){
+        return dispatch(changeHours( event.target.value ));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanelHours)

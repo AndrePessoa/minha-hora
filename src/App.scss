@@ -1,6 +1,6 @@
 $yellow: #EFF286;
-$pri-color: #2A3247;
-$sec-color: #69758E;
+$pri-color: #4e4e4e;
+$sec-color: #818181;
 
 $small-screen: 768px;
 
@@ -28,11 +28,7 @@ body{
   margin: 0;
   padding: 0;
   background-color: $pri-color;
-  background: linear-gradient(to right, lighten($pri-color,5%) 0%,$pri-color 6%, $pri-color 94%, lighten($pri-color,2.5%) 100%);
 
-  @media screen and ( max-width: $small-screen ) {
-    background: linear-gradient(to right, lighten($pri-color,1.5%) 0%,$pri-color 6%, $pri-color 94%, lighten($pri-color,2.5%) 100%)
-  }
 }
 
 .app {

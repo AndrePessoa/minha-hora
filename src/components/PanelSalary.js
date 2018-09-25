@@ -1,19 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+
 import CurrencyInput from 'react-currency-input';
 import Panel from './Panel.js';
 import Help from './Help.js';
 
-export default class PanelSalary extends Panel {
+
+class PanelSalary extends Panel {
     constructor(props) {
       super(props);
-      this.state = {
-        status: false,
-        salary: "0.00"
-      };
-
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.handleInputCurrencyChange = this.handleInputCurrencyChange.bind(this);
-      this.next = this.next.bind(this);
     }
 
     componentDidMount(){
@@ -21,24 +18,51 @@ export default class PanelSalary extends Panel {
     }
 
     render() {
+      const salary = this.props.inputs.salary;
+      const status = this.props.panels['salary'];
+
       return (
-        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
+        <form onSubmit={this.next} className={['panel', (status?"panel-complete":""),this.props.className].join(' ')}>
           <p>Quanto você quer ganhar por mês?</p>         
           <CurrencyInput 
             name="salary"
             ref="salary" 
-            value={this.state.salary}
+            value={salary}
             decimalSeparator=","
             thousandSeparator="."
-            onChangeEvent={this.handleInputCurrencyChange}
+            onChangeEvent={this.props.changeSalary}
             prefix="R$ "
             />
             <Help header="">
                 <p>Quanto você quer ganhar mensalmente como salário líquido, já descontados todos os custos e impostos.</p>
                 <p>Imagine que você é um funcionário de si mesmo.</p>
             </Help>
-          <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>pronto!</button>
+          <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/hours":""}>pronto!</Link>
         </form>
       );
     }
 }
+
+/* Reduxing */
+
+function mapStateToProps(state) {
+  return { 
+    inputs: state.inputs,
+    panels: state.panels
+  }
+}
+
+export function changeSalary(value) {
+  return {
+    type: 'UPDATE_SALARY',
+    value
+  }
+}
+
+const mapDispatchToProps = dispatch =>({
+  changeSalary( event, maskedvalue, floatvalue ){
+    return dispatch(changeSalary( floatvalue ));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanelSalary)

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import '../App.scss';
+import Nav from './Nav.js';
 import PanelSalary from './PanelSalary.js';
 import PanelHours from './PanelHours.js';
 import PanelResult from './PanelResult.js';
@@ -17,11 +21,11 @@ class App extends Component {
 		this.state = {
 				currentStep:0,
 				steps: [
-					{id:0},
-					{id:1},
-					{id:2},
-					{id:3},
-					{id:4}],
+					{id:'salary'},
+					{id:'hours'},
+					{id:'resources'},
+					{id:'result'},
+					{id:'end'}],
 				data: DataController
 		};
 
@@ -54,87 +58,38 @@ class App extends Component {
 	}
 
 	render() {
-		const teste = this.state.data.teste ? "sim" : "nao";
-		const listItems = this.state.steps.map((step) =>
-			<li 
-				key={step.id.toString()} 
-				data-index={step.id}
-				className={[( step.id === this.state.currentStep ? "active" : "" ), ( this.state.data.checkData(step.id) ? "enabled" : "disabled" ) ].join(" ")} 
-				onClick={this.goToPanel}
-				disabled={!this.state.data.checkData(step.id)}
-				></li>
-		);
 
 		return (
-			<div className="app" data-teste={teste}>
-				<main>
-					<div id="top">
-						<h1 id="logo">
-							<Logo/>
-						</h1>
-						<nav>
-							<ul>{listItems}</ul>
-						</nav>     
-					</div>
-					<div id="panels">
-						<div className={['panels-wrap', ("panel-"+this.state.currentStep) ].join(" ")}>
-							<PanelSalary 
-								ref="panel-0"
-								className={[ ( this.state.currentStep === 0 )? "current" : ( this.state.currentStep > 0 )? "prev" : "next" ].join(" ")}
-								onChange={this.onChange}
-								onNext={this.nextPanel}
-								step={0}
-								data={this.state.data}
-								></PanelSalary>
-							<PanelHours 
-								ref="panel-1"
-								className={[ ( this.state.currentStep === 1 )? "current" : ( this.state.currentStep > 1 )? "prev" : "next" ].join(" ")}
-								onChange={this.onChange}
-								onNext={this.nextPanel}
-								step={1}
-								data={this.state.data}
-								></PanelHours>
-							<PanelResources 
-								ref="panel-2"
-								className={[ ( this.state.currentStep === 2 )? "current" : ( this.state.currentStep > 2 )? "prev" : "next" ].join(" ")}
-								onChange={this.onChange}
-								onNext={this.nextPanel}
-								step={2}
-								data={this.state.data}
-								></PanelResources>
-							<PanelResult 
-								ref="panel-3"
-								className={[ ( this.state.currentStep === 3 )? "current" : ( this.state.currentStep > 3 )? "prev" : "next" ].join(" ")}
-								onChange={this.onChange}
-								onNext={this.nextPanel}
-								step={3}
-								data={this.state.data}
-								></PanelResult>
-							<PanelEnd 
-								ref="panel-4"
-								className={[ ( this.state.currentStep === 4 )? "current" : ( this.state.currentStep > 4 )? "prev" : "next" ].join(" ")}
-								onChange={this.onChange}
-								onNext={this.nextPanel}
-								step={4}
-								data={this.state.data}
-								></PanelEnd>          
-						</div> 
-					</div>
-				</main> 
-				<aside>
-					<Illustrations step={this.state.currentStep} />
-					<PanelFormComplete 
-						ref="panel-4"
-						className={[ ( this.state.currentStep === 4 )? "current" : ( this.state.currentStep > 4 )? "prev" : "next" ].join(" ")}
-						onChange={this.onChange}
-						onNext={this.nextPanel}
-						step={4}
-						data={this.state.data}
-						></PanelFormComplete>  
-				</aside>     
+			<div className="app">			
+				<Router>
+					<main>
+						<div id="top">
+							<h1 id="logo">
+								<Logo/>
+							</h1>
+							<Nav steps={this.state.steps} panels={this.props.panels } />     
+						</div>		
+							<div id="panels">
+								<Route exact path="/" component={PanelSalary} />
+								<Route path="/salary" component={PanelSalary} />
+								<Route path="/hours" component={PanelHours} />
+								<Route path="/resources" component={PanelResources} />
+								<Route path="/result" component={PanelResult} />
+								<Route path="/end" component={PanelEnd} />
+								<Route path="/complete" component={PanelFormComplete} />
+							</div>
+					</main>    
+				</Router>
 			</div>
 		);
 	}
 }
 
-export default App;
+function mapStateToProps(state) {
+    return { 
+      inputs: state.inputs,
+      panels: state.panels
+    }
+}
+
+export default connect(mapStateToProps)(App);

@@ -1,8 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import CurrencyInput from 'react-currency-input';
+
 import Panel from './Panel.js';
 import Help from  './Help.js';
 
-export default class PanelResult extends Panel{
+class PanelResult extends Panel{
     constructor(props){
         super(props);
         this.state = {
@@ -12,22 +17,43 @@ export default class PanelResult extends Panel{
     }
 
     render(){
-        let result = this.props.data.getResult();
+        const result = this.props.inputs.perHour;
+        const status = this.props.panels.result;
         return (
-            <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-              <p>O custo da sua hora deve ser de</p>         
-              <input 
-                name="result"
-                type="text"
-                value={result}
-                readOnly={true}
-                />
+            <form onSubmit={this.next} className={['panel', (status?"panel-complete":""),this.props.className].join(' ')}>
+                <p>O custo da sua hora deve ser de</p>   
+                <CurrencyInput 
+                  name="salary"
+                  ref="salary" 
+                  value={result}
+                  decimalSeparator=","
+                  thousandSeparator="."
+                  onChangeEvent={this.props.changeSalary}
+                  prefix="R$ "
+                  readOnly={true}
+                  />
                 <Help header="">
                     <p>Esse valor é calculado sobre um cenário estimado.</p>
                     <p>A seguir, veremos melhores todos os valores empregados e conceitos.</p>
                 </Help>
-              <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.next}>como assim?</button>
+              <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/complete":""}>como assim?</Link>
             </form>
           );
     }
 }
+
+
+/* Reduxing */
+
+function mapStateToProps(state) {
+    return { 
+      inputs: state.inputs,
+      panels: state.panels
+    }
+}
+  
+  
+const mapDispatchToProps = dispatch =>({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PanelResult)
