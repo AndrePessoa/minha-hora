@@ -1,33 +1,45 @@
 export default Object.assign({
     // public methods 
-    getResult( values ){
+    setData( values ){
         for ( var i in values ) this[i] = values[i];
+    },
+    getPerHour(){
 
-        let total_salary = ( this.annual_bonus ? 13 : 12 ) * this.salary; 
+        this.total_salary = ( this.annual_bonus ? 13 : 12 ) * this.salary; 
 
         let total_days = 365 - this.vacation;
         let workdays = ( ( total_days / 7 ) * this.days ) - ( this.holidays ? this._holidaysPerYear : 0 );
         let total_hours = workdays * this.hours;
         
-        let reserve_time = this.admin_time + this.selfprojects_time + this.prospect_time + this.securitymargin_time;
-        let payed_hours = total_hours * ( 1 - reserve_time );
+        this.reserve_time = this.admin_time + this.selfprojects_time + this.prospect_time + this.securitymargin_time;
+        this.payed_hours = total_hours * ( 1 - this.reserve_time );
+        this.reserved_hours = total_hours * ( this.reserve_time );
         
-        let total_income = total_salary + 
+        this.total_income = this.total_salary + 
                             this._calcPlaceCost() +
                             this._calcHardwareCost() +
                             this._calcSoftwareCost() +
                             this._calcPersonalCost()
 
-        let tax = this.tax ? this.tax : this._calcAutoTax( total_income / 12 );
+        this.tax = this.tax ? this.tax : this._calcAutoTax( this.total_income / 12 ) * 12;
 
-        total_income = total_income + tax;
+        this.total_income = this.total_income + this.tax;
 
-        let result = total_income / payed_hours;
+        this.perHour = this.total_income / this.payed_hours;
 
         // /debugger;
 
-        return result;
+        return this.perHour;
         //return this._toCurrency( result ) ;
+    },
+    getPercents(){
+        return {
+            personal: Math.floor( ( this.total_salary + this._calcPersonalCost() ) / this.total_income * 10000 ) / 100,
+            admin: Math.floor( ( this.reserved_hours * this.perHour ) / this.total_income * 10000 ) / 100,
+            assets: Math.floor( ( this._calcHardwareCost() + this._calcSoftwareCost() ) / this.total_income * 10000 ) / 100,
+            place: Math.floor( ( this._calcPlaceCost() ) / this.total_income * 10000 ) / 100,
+            tax: Math.floor( ( this.tax ) / this.total_income * 10000 ) / 100,
+        }
     },
     toJSON(){
         let result = {};
@@ -71,15 +83,15 @@ export default Object.assign({
         return result;
     },
     _calcHardwareCost(){
-        if( this.area === null ) return 0;
-        return ( this.hardware_buy_cost - this.hardware_sell_cost ) / 3 ;
+        if( !this.hardware_buy_cost ) return 0;
+        return ( this.hardware_buy_cost - this.hardware_sell_cost ) / ( this.hardware_life_circle / 12 );
     },
     _calcSoftwareCost(){
-        if( this.area === null ) return 0;
+        if( !this.software_buy_cost && !this.software_rent_cost ) return 0;
         return this.software_buy_cost + this.software_rent_cost * 12;
     },
     _calcPlaceCost(){
-        if( this.room === null ) return 0;
+        if( !this.place_percent ) return 0;
         return ( ( this.place_rent + this.place_bills + this.place_internet ) * this.place_percent ) * 12;
     },
     _calcPersonalCost(){        

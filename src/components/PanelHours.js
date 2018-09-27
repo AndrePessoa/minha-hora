@@ -28,7 +28,7 @@ class PanelHours extends Panel {
 
         return (
             <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-                <p>Quer trabalhar quantos dias por semana?</p>
+                <h2>Quer trabalhar quantos dias por semana?</h2>
                 <input
                     ref="days"
                     type="number"
@@ -37,12 +37,12 @@ class PanelHours extends Panel {
                     name="days"
                     defaultValue={days}
                     required
-                    onChange={this.props.changeHours}
+                    onChange={this.props.changeDays}
                     />
                 <Help header="">
                     <p>Quais dias você pretende se dedicar ao trabalho diretamente e indiretamente.</p>
                 </Help>
-                <p>E quantas horas por dia?</p>
+                <h2>E quantas horas por dia?</h2>
                 <input 
                     type="number"
                     min="1"
@@ -50,12 +50,14 @@ class PanelHours extends Panel {
                     name="hours"
                     defaultValue={hours}
                     required
-                    onChange={this.props.changeDays}
+                    onChange={this.props.changeHours}
                     />
                 <Help header="">
                     <p>Quantas horas por dia você pretende disponibilizar, tanto na tarefa em si, como em tarefas relacionadas.</p>
                 </Help>
-                <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/resources":""}>pronto!</Link>
+                <div className="action-line">
+                    <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/resources":""}>pronto!</Link>
+                </div>
             </form>
       );
     }

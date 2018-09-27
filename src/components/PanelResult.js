@@ -21,7 +21,7 @@ class PanelResult extends Panel{
         const status = this.props.panels.result;
         return (
             <form onSubmit={this.next} className={['panel', (status?"panel-complete":""),this.props.className].join(' ')}>
-                <p>O custo da sua hora deve ser de</p>   
+                <h2>O custo da sua hora deve ser de</h2>   
                 <CurrencyInput 
                   name="salary"
                   ref="salary" 
@@ -36,7 +36,9 @@ class PanelResult extends Panel{
                     <p>Esse valor é calculado sobre um cenário estimado.</p>
                     <p>A seguir, veremos melhores todos os valores empregados e conceitos.</p>
                 </Help>
-              <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/complete":""}>como assim?</Link>
+                <div className="action-line">
+                    <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/complete":""}>como assim?</Link>
+                </div>
             </form>
           );
     }

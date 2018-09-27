@@ -14,7 +14,7 @@ const panels = (state = defaultValues, action) => {
 
         const salaryCheck = ( values.salary > 0 )
         const hoursCheck =  (( values.days > 0 && values.days <= 7 ) && ( values.hours > 0 && values.hours <= 24 ))
-        const resourcesCheck = ( values.room && values.area )
+        const resourcesCheck = ( values.room && values.area ) || ( values.place_rent > 0 && values.hardware_buy_cost > 0 )
         const resultCheck = ( salaryCheck && hoursCheck && resourcesCheck )
 
         return update( state, { 

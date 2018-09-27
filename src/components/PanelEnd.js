@@ -20,26 +20,34 @@ export default class PanelEnd extends Panel {
         this.refs.open.focus();
     }
 
+    handleInputChange(e){
+        this.setState({
+            email: e.target.value
+        });
+    }
+
     send(e){
-        console.log( this.props.data.toJSON() );
         e.preventDefault();
+        console.log( this.state );
+        
     }
 
     open(e){
+        e.preventDefault();
         this.setState({closed: false});
         this.refs.email.focus();
-        e.preventDefault();
     }
 
     render() {
       return (
         <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-            <p>salário .</p>
-            <p>horas .</p>
-            <p>custo com equipamentos .</p>
-            <p>custo com programas .</p>
-            <p>custo com local .</p>
-            <p>custo em impostos .</p> 
+            <p>Calcular o custo da hora, para ser efetivo, deve ser considerado como qualquer empreendimento, e levar em conta, além do lucro esperado, os investimentos internos do processo e os custos dos insumos relacionados.</p>
+            <h2>salário .</h2>
+            <h2>horas .</h2>
+            <h2>custo com equipamentos .</h2>
+            <h2>custo com programas .</h2>
+            <h2>custo com local .</h2>
+            <h2>custo em impostos .</h2> 
             <Help header="">
                 <p>As perguntas desse formulário foram feitas com fins didáticos para lembrar detalhes que muitas vezes são esquecidos na hora de quantificar os custos da hora do profissional liberal.</p>
                 <p>Os valores utilizados são estimativas, e para um resultado mais preciso, ajuste-os à sua realidade.</p>
@@ -54,6 +62,7 @@ export default class PanelEnd extends Panel {
                     type="email"
                     placeholder="Seu email"
                     value={this.state.email}
+                    onChange={this.handleInputChange}
                     />
                 <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.send}>pode mandar!</button>
             </div>            

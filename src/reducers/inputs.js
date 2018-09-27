@@ -4,6 +4,13 @@ import Areas from '../models/Areas.js';
 
 const defaultValues = {
     perHour: 0,
+    percents: {
+        personal: 0.2,
+        admin: 0.2,
+        assets: 0.2,
+        place: 0.2,
+        tax: 0.2
+    },
     //
     // public props
     // money out
@@ -23,11 +30,11 @@ const defaultValues = {
     place_percent: 0,
     software_buy_cost: 0,
     software_rent_cost: 0,
-    software_life_circle: 1,
     hardware_buy_cost: 0,
     hardware_sell_cost: 0,
-    hardware_life_circle: 1,
-    tax: null,
+    hardware_life_circle: 12,
+    tax: 0,
+    taxModel: null,
     // personal cost
     health_plan: 0,
     pension: 0,
@@ -76,7 +83,14 @@ const inputs = (state = defaultValues, action) => {
             } );
         // extended
         case 'UPDATE_RESULT':
-            return update( state, { perHour: { $set: action.value } } );
+            return update( state, {
+                perHour: { $set: action.perHour },
+                percents: { $set: action.percents } 
+            } );
+        case 'UPDATE_SUB':
+            return update( state, { 
+                [action.name]: { $set: action.value },
+            } );
         default:
             return state
     }

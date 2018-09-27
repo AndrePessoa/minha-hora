@@ -25,7 +25,7 @@ class PanelResources extends Panel {
 
       return (
         <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-            <p>qual a sua área de atuação?</p>
+            <h2>qual a sua área de atuação?</h2>
             <Select 
                 ref="area"
                 name="area"
@@ -36,7 +36,7 @@ class PanelResources extends Panel {
             <Help header="">
                 <p>Qual das opções mais se parece tecnicamente com o ramo de atividade que você exerce.</p>
             </Help>
-            <p>de que tipo de ambiente você precisa?</p>
+            <h2>de que tipo de ambiente você precisa?</h2>
             <Select 
                 name="room"
                 value={roomObject}
@@ -47,7 +47,9 @@ class PanelResources extends Panel {
                 <p>Qual o espaço necessário para o seu trabalho.</p>
                 <p>Esse espaço pode ser compartilhado ou estar inserido dentro de outros contextos.</p>
             </Help>
-            <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/result":""}>pronto!</Link>
+            <div className="action-line">
+              <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/result":""}>pronto!</Link>
+            </div>
         </form>
       );
     }

@@ -25,7 +25,7 @@ class App extends Component {
 					{id:'hours'},
 					{id:'resources'},
 					{id:'result'},
-					{id:'end'}],
+					{id:'complete'}],
 				data: DataController
 		};
 

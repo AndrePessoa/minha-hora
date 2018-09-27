@@ -23,7 +23,7 @@ class PanelSalary extends Panel {
 
       return (
         <form onSubmit={this.next} className={['panel', (status?"panel-complete":""),this.props.className].join(' ')}>
-          <p>Quanto você quer ganhar por mês?</p>         
+          <h2>Quanto você quer ganhar por mês?</h2>         
           <CurrencyInput 
             name="salary"
             ref="salary" 
