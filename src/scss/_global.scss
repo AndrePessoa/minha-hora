@@ -5,9 +5,10 @@
 }
 
 main{
-    width: 100vw;
+    width: 100%;
     margin: 0 auto;
-
+    padding: 0;
+    box-sizing: border-box;
     p {
         color: white;
         margin-bottom: 1em;
@@ -381,5 +382,9 @@ nav ul{
                 max-height: 0;
             }
         }
+    }
+
+    .grafico{
+        margin-top: 25px;
     }
 }

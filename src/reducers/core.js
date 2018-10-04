@@ -15,11 +15,11 @@ export default Object.assign({
         this.payed_hours = total_hours * ( 1 - this.reserve_time );
         this.reserved_hours = total_hours * ( this.reserve_time );
         
-        this.total_income = this.total_salary + 
-                            this._calcPlaceCost() +
+        this.total_income = this.total_salary +
+                            this._calcPersonalCost() +
                             this._calcHardwareCost() +
-                            this._calcSoftwareCost() +
-                            this._calcPersonalCost()
+                            this._calcSoftwareCost() + 
+                            this._calcPlaceCost();
 
         this.tax = this.tax ? this.tax : this._calcAutoTax( this.total_income / 12 ) * 12;
 
@@ -33,12 +33,27 @@ export default Object.assign({
         //return this._toCurrency( result ) ;
     },
     getPercents(){
+        var prop_payed_hours = this.payed_hours / ( this.reserved_hours + this.payed_hours );
+        var prop_reserved_hours = this.reserved_hours / ( this.reserved_hours + this.payed_hours );
+
+        var totals = {
+            personal: ( this.total_salary + this._calcPersonalCost() ) * prop_payed_hours,
+            admin: ( this.reserved_hours * this.perHour ),
+            assets: ( this._calcHardwareCost() + this._calcSoftwareCost() ) * prop_payed_hours,
+            place: ( this._calcPlaceCost() ) * prop_payed_hours,
+            tax: ( this.tax ) * prop_payed_hours
+        };
+
         return {
-            personal: Math.floor( ( this.total_salary + this._calcPersonalCost() ) / this.total_income * 10000 ) / 100,
-            admin: Math.floor( ( this.reserved_hours * this.perHour ) / this.total_income * 10000 ) / 100,
-            assets: Math.floor( ( this._calcHardwareCost() + this._calcSoftwareCost() ) / this.total_income * 10000 ) / 100,
-            place: Math.floor( ( this._calcPlaceCost() ) / this.total_income * 10000 ) / 100,
-            tax: Math.floor( ( this.tax ) / this.total_income * 10000 ) / 100,
+            payed_hours:    this.payed_hours,
+            reserved_hours: this.reserved_hours,
+            perYear:        this.total_income,
+            taxPerYear:     this.tax,
+            personal:       Math.floor( totals.personal / this.total_income * 10000 ) / 100,
+            admin:          Math.floor( prop_reserved_hours * 10000 ) / 100,
+            assets:         Math.floor( totals.assets / this.total_income * 10000 ) / 100,
+            place:          Math.floor( totals.place / this.total_income * 10000 ) / 100,
+            tax:            Math.floor( totals.tax / this.total_income * 10000 ) / 100
         }
     },
     toJSON(){

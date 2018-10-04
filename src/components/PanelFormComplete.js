@@ -32,17 +32,18 @@ class PanelFormComplete extends Panel {
     renderChart(){
         const percents = this.props.inputs.percents;
         const chartData = [
-            {strokeWidth: 0, value: percents.personal, label: "Pessoal"},
-            {strokeWidth: 0, value: percents.admin, label: "Administração"},
-            {strokeWidth: 0, value: percents.place,  label: "Insumos"},
-            {strokeWidth: 0, value: percents.assets,  label: "Infra-estrutura"},
-            {strokeWidth: 0, value: percents.tax,  label: "Impostos"}
+            {color: '#0DAB76' ,strokeWidth: 0, value: percents.personal, label: "Pessoal"},
+            {color: '#02C39A' ,strokeWidth: 0, value: percents.admin, label: "Administração"},
+            {color: '#00A896' ,strokeWidth: 0, value: percents.place,  label: "Insumos"},
+            {color: '#028090' ,strokeWidth: 0, value: percents.assets,  label: "Infra-estrutura"},
+            {color: '#05668D' ,strokeWidth: 0, value: percents.tax,  label: "Impostos"}
         ];
         const chartOptions = {
             segmentStrokeWidth: 0,
-            segmentStrokeColor: '#3e3e3e'
+            segmentStrokeColor: '#3e3e3e',
+            tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>%"
         };
-        return <PieChart data={chartData} options={chartOptions}/>
+        return <PieChart className={'grafico'} data={chartData} options={chartOptions}/>
     }
 
     render() {
@@ -50,7 +51,6 @@ class PanelFormComplete extends Panel {
 
       return (
         <form onSubmit={this.next} className={['panel', 'panel-large', (status?"panel-complete":""),this.props.className].join(' ')}>
-            { this.renderChart() }
             <h3>Valor base</h3>
             <div className="input-line">
                 <label>Salário</label>
@@ -288,20 +288,58 @@ class PanelFormComplete extends Panel {
                     onValueChange={this.props.changePerc}
                     />
             </div>
-        
             <div className="input-line">
-                <label>Valor por hora</label>
+                <label>Impostos por mês</label>
                 <CurrencyInput 
-                  name="salary"
-                  ref="salary" 
-                  value={this.props.inputs.perHour}
+                  name="perhour"
+                  ref="perhour" 
+                  value={ this.props.inputs.percents.taxPerYear / 12 }
                   decimalSeparator=","
                   thousandSeparator="."
-                  onChangeEvent={this.props.changeSalary}
                   prefix="R$ "
                   readOnly={true}
                   />
             </div>
+            <h3>Resultados</h3>
+        
+            <div className="input-line">
+                <label>Valor por hora</label>
+                <CurrencyInput 
+                  name="perhour"
+                  ref="perhour" 
+                  value={this.props.inputs.perHour}
+                  decimalSeparator=","
+                  thousandSeparator="."
+                  prefix="R$ "
+                  readOnly={true}
+                  />
+            </div>
+            <div className="input-line">
+                <label>Valor mensal</label>
+                <CurrencyInput 
+                  name="perMonth"
+                  ref="perMonth" 
+                  value={this.props.inputs.percents.perYear / 12}
+                  decimalSeparator=","
+                  thousandSeparator="."
+                  prefix="R$ "
+                  readOnly={true}
+                  />
+            </div>
+            <div className="input-line">
+                <label>Valor por ano</label>
+                <CurrencyInput 
+                  name="perYear"
+                  ref="perYear" 
+                  value={this.props.inputs.percents.perYear}
+                  decimalSeparator=","
+                  thousandSeparator="."
+                  prefix="R$ "
+                  readOnly={true}
+                  />
+            </div>
+            <h3>Proporção da composição de preço</h3>
+            { this.renderChart() }
             <div className="action-line">
                 <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/end":""}>pronto!</Link>
             </div>
