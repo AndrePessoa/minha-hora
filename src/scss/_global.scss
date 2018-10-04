@@ -194,6 +194,7 @@ nav ul{
 
         &[disabled]{
             background: $sec-color;
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
             pointer-events: none;
             cursor: default;   
         }
@@ -259,6 +260,7 @@ nav ul{
         margin: 12px 0;
         padding: 8px;
         min-width: 250px;
+        font-size: 16px;
 
         &:first-child{
             margin: 0;
@@ -289,7 +291,7 @@ nav ul{
         font-size: 23px;
         text-align: right;
         margin-bottom: 0.5em;
-        line-height: 1.1em;
+        line-height: 1.3em;
     }
     
     h3{

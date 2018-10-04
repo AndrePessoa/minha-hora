@@ -37,7 +37,10 @@ class PanelSalary extends Panel {
                 <p>Quanto você quer ganhar mensalmente como salário líquido, já descontados todos os custos e impostos.</p>
                 <p>Imagine que você é um funcionário de si mesmo.</p>
             </Help>
-          <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/hours":""}>pronto!</Link>
+            <div className="action-line">
+              { false && this.props.panels.salary && <span className={['btn'].join(' ')} disabled={!status} to={status?"/hours":""}>refazer</span> }
+              <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/hours":""}>pronto!</Link>
+            </div>
         </form>
       );
     }

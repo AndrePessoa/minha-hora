@@ -81,10 +81,10 @@ function mapStateToProps(state) {
   
   const mapDispatchToProps = dispatch =>({
     changeArea( seleted ){
-      return dispatch(changeArea( seleted.value ));
+      return dispatch(changeArea( seleted ? seleted.value : null ));
     },
     changePlace( seleted ){
-      return dispatch(changePlace( seleted.value ));
+      return dispatch(changePlace( seleted ? seleted.value  : null ));
     }
   });
   

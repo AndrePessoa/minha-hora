@@ -124,7 +124,7 @@ class PanelFormComplete extends Panel {
                     min="1"
                     max="7"
                     name="days"
-                    defaultValue={this.props.inputs.hours}
+                    defaultValue={this.props.inputs.days}
                     required
                     onChange={this.props.changeDays}
                     />
@@ -136,7 +136,7 @@ class PanelFormComplete extends Panel {
                     min="1"
                     max="24"
                     name="hours"
-                    defaultValue={this.props.inputs.days}
+                    defaultValue={this.props.inputs.hours}
                     required
                     onChange={this.props.changeHours}
                     />

@@ -57,7 +57,7 @@ const inputs = (state = defaultValues, action) => {
             return update( state, { hours: { $set: action.value } } );
         case 'UPDATE_ASSETS':
             const areaId = action.value;
-            const area = Areas[areaId];
+            const area = Areas[areaId] || { software: { buy: 0, rent: 0 }, hardware: { buy: 0, sell: 0 } };
             return update( state, { 
                 area: { $set: areaId },
                 software_buy_cost: { $set: area.software.buy },
@@ -73,7 +73,7 @@ const inputs = (state = defaultValues, action) => {
             } );
         case 'UPDATE_PLACE':
             const placeId = action.value;
-            const place = Rooms[placeId];
+            const place = Rooms[placeId] || { rent: 0, bills: 0, internet: 0, percent: 0 };
             return update( state, { 
                 room: { $set: placeId },
                 place_rent: { $set: place.rent },

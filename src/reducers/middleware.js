@@ -28,6 +28,15 @@ export const verifyResult = store => next => action => {
         case 'UPDATE_PLACE':
         case 'UPDATE_SUB':
             next(action);
+
+            setTimeout(()=>{
+                store.dispatch({
+                    type: "CHECK_RESULT"
+                });
+            },1);
+
+            break;
+        case 'CHECK_RESULT': 
             const values = store.getState();
             const complete = Object.values(values.panels).indexOf(false) == -1;
 
@@ -42,9 +51,9 @@ export const verifyResult = store => next => action => {
                     type: "UPDATE_RESULT",
                     perHour: perHour,
                     percents: percents
-                 });
+                });
             }
-            break;
+
         default:
             next(action);
     }
