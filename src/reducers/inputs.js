@@ -32,7 +32,7 @@ const defaultValues = {
     software_rent_cost: 0,
     hardware_buy_cost: 0,
     hardware_sell_cost: 0,
-    hardware_life_circle: 12,
+    hardware_life_circle: 24,
     tax: 0,
     taxModel: null,
     // personal cost
@@ -62,10 +62,8 @@ const inputs = (state = defaultValues, action) => {
                 area: { $set: areaId },
                 software_buy_cost: { $set: area.software.buy },
                 software_rent_cost: { $set: area.software.rent },
-                software_life_circle: { $set: 1 },
                 hardware_buy_cost: { $set: area.hardware.buy },
-                hardware_sell_cost: { $set: area.hardware.sell },
-                hardware_life_circle: { $set: 1 }
+                hardware_sell_cost: { $set: area.hardware.sell }
             } );
         case 'UPDATE_ASSETS_SUB':
             return update( state, { 
