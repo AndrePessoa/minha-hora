@@ -4,8 +4,8 @@ export default [
         label: "Programação back-end",
         description: "Lorem ipsum",
         software: {
-            buy: 500,
-            rent: 25
+            buy: 100,
+            rent: 100
         },
         hardware: {
             buy: 2500,
@@ -17,8 +17,8 @@ export default [
         label: "Programação front-end",
         description: "Lorem ipsum",
         software: {
-            buy: 500,
-            rent: 125
+            buy: 100,
+            rent: 175
         },
         hardware: {
             buy: 3500,
@@ -30,8 +30,8 @@ export default [
         label: "Design Gráfico",
         description: "Lorem ipsum",
         software: {
-            buy: 500,
-            rent: 100
+            buy: 200,
+            rent: 175
         },
         hardware: {
             buy: 4500,
@@ -43,11 +43,11 @@ export default [
         label: "Design de produto",
         description: "Lorem ipsum",
         software: {
-            buy: 3500,
-            rent: 25
+            buy: 500,
+            rent: 500
         },
         hardware: {
-            buy: 4000,
+            buy: 5000,
             sell: 1500
         }
     },
@@ -69,11 +69,11 @@ export default [
         label: "Ilustração 3d",
         description: "Lorem ipsum",
         software: {
-            buy: 3500,
-            rent: 0
+            buy: 500,
+            rent: 575
         },
         hardware: {
-            buy: 5000,
+            buy: 6500,
             sell: 1500
         }
     },
@@ -82,12 +82,12 @@ export default [
         label: "Animação",
         description: "Lorem ipsum",
         software: {
-            buy: 3500,
-            rent: 0
+            buy: 500,
+            rent: 575
         },
         hardware: {
-            buy: 6500,
-            sell: 1000
+            buy: 7500,
+            sell: 1500
         }
     }
 ]

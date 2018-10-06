@@ -43,6 +43,15 @@ export default [
         bills: 250,
         internet: 250,
         percent: 1
+    },
+    { 
+        value : "5",
+        label : "Alocado no cliente",
+        description : "",
+        rent: 0,
+        bills: 0,
+        internet: 250,
+        percent: 1
     }
 ]
 
