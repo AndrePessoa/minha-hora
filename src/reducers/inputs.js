@@ -100,6 +100,8 @@ const inputs = (state = defaultValues, action) => {
       return update(state, {
         [action.name]: { $set: action.value },
       });
+    case "RESET":
+      return { ...defaultValues };
     default:
       return state;
   }
