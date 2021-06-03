@@ -133,11 +133,15 @@ export default Object.assign(
     },
     _calcPlaceCost() {
       if (!this.place_percent) return 0;
-      return (
-        (this.place_rent + this.place_bills + this.place_internet) *
+
+      const place_monthly_cost =
         this.place_percent *
-        12
-      );
+        (this.place_rent + this.place_bills + this.place_internet);
+
+      let total_days = 365 - this.vacation;
+      const place_commute_yearly_cost = this.place_commute * total_days;
+
+      return place_monthly_cost * 12 + place_commute_yearly_cost;
     },
     _calcPersonalCost() {
       return (this.pension + this.health_plan) * 12;

@@ -1,72 +1,81 @@
-import React from 'react';
-import Panel from './Panel.js';
-import Help from './Help.js';
+import React, { useState } from "react";
 
-export default class PanelEnd extends Panel {
-    constructor(props) {
-      super(props);
-      this.state = {
-        status: true,
-        closed: true,
-        email: ""
-      };
+import Help from "./Help.js";
+import usePanels from "./hooks/usePanel.js";
 
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.send = this.send.bind(this);
-      this.open = this.open.bind(this);
-    }
+function PanelEnd() {
+  const [closed, setClosed] = useState(true);
+  const [email, setEmail] = useState();
 
-    setFocus(){
-        this.refs.open.focus();
-    }
+  const { nextPanel } = usePanels();
 
-    handleInputChange(e){
-        this.setState({
-            email: e.target.value
-        });
-    }
+  const send = () => {
+    console.log(email);
+  };
 
-    send(e){
-        e.preventDefault();
-        console.log( this.state );
-        
-    }
+  const status = true;
 
-    open(e){
-        e.preventDefault();
-        this.setState({closed: false});
-        this.refs.email.focus();
-    }
-
-    render() {
-      return (
-        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-            <p>Calcular o custo da hora, para ser efetivo, deve ser considerado como qualquer empreendimento, e levar em conta, além do lucro esperado, os investimentos internos do processo e os custos dos insumos relacionados.</p>
-            <h2>salário .</h2>
-            <h2>horas .</h2>
-            <h2>custo com equipamentos .</h2>
-            <h2>custo com programas .</h2>
-            <h2>custo com local .</h2>
-            <h2>custo em impostos .</h2> 
-            <Help header="">
-                <p>As perguntas desse formulário foram feitas com fins didáticos para lembrar detalhes que muitas vezes são esquecidos na hora de quantificar os custos da hora do profissional liberal.</p>
-                <p>Os valores utilizados são estimativas, e para um resultado mais preciso, ajuste-os à sua realidade.</p>
-            </Help>
-            <button ref="open" className={['btn', (this.state.status?"":"btn-disabled"), ( !this.state.closed ? 'hidden' : '' )].join(' ')} disabled={!this.state.status} onClick={this.open}>me manda?</button>
-            <div className={ [ this.state.closed ? "hidden" : ""].join(' ') }>
-                <h2>Seus dados para o envio</h2> 
-                <p>Os dados ao lado serão enviados para o seu e-mail, além de um arquivo XLS(planilha).</p>          
-                <input 
-                    ref="email"
-                    name="email"
-                    type="email"
-                    placeholder="Seu email"
-                    value={this.state.email}
-                    onChange={this.handleInputChange}
-                    />
-                <button className={['btn', (this.state.status?"":"btn-disabled")].join(' ')} disabled={!this.state.status} onClick={this.send}>pode mandar!</button>
-            </div>            
-        </form>
-      );
-    }
+  return (
+    <form
+      onSubmit={nextPanel}
+      className={["panel", status ? "panel-complete" : ""].join(" ")}
+    >
+      <p>
+        Calcular o custo da hora, para ser efetivo, deve ser considerado como
+        qualquer empreendimento, e levar em conta, além do lucro esperado, os
+        investimentos internos do processo e os custos dos insumos relacionados.
+      </p>
+      <h2>salário .</h2>
+      <h2>horas .</h2>
+      <h2>custo com equipamentos .</h2>
+      <h2>custo com programas .</h2>
+      <h2>custo com local .</h2>
+      <h2>custo em impostos .</h2>
+      <Help header="">
+        <p>
+          As perguntas desse formulário foram feitas com fins didáticos para
+          lembrar detalhes que muitas vezes são esquecidos na hora de
+          quantificar os custos da hora do profissional liberal.
+        </p>
+        <p>
+          Os valores utilizados são estimativas, e para um resultado mais
+          preciso, ajuste-os à sua realidade.
+        </p>
+      </Help>
+      <button
+        className={[
+          "btn",
+          status ? "" : "btn-disabled",
+          !closed ? "hidden" : "",
+        ].join(" ")}
+        disabled={!status}
+        onClick={() => setClosed(false)}
+      >
+        me manda?
+      </button>
+      <div className={[closed ? "hidden" : ""].join(" ")}>
+        <h2>Seus dados para o envio</h2>
+        <p>
+          Os dados ao lado serão enviados para o seu e-mail, além de um arquivo
+          XLS(planilha).
+        </p>
+        <input
+          name="email"
+          type="email"
+          placeholder="Seu email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <button
+          className={["btn", status ? "" : "btn-disabled"].join(" ")}
+          disabled={!status}
+          onClick={send}
+        >
+          pode mandar!
+        </button>
+      </div>
+    </form>
+  );
 }
+
+export default PanelEnd;

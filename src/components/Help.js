@@ -1,29 +1,25 @@
-import React, { Component } from 'react';
+import React, { useState } from "react";
 
-export default class Help extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false
-        };
-        this.onClick = this.onClick.bind(this);
-    }
+function Help({ header, children }) {
+  const [open, setOpen] = useState(false);
 
-    onClick(){
-        this.setState({ open: !this.state.open });
-    }
+  const onClick = () => {
+    setOpen(!open);
+  };
 
-    render(){
-        var status = this.state.open ? "opened" : "closed" ;
-        return (
-            <div className={['help', status].join(" ")}>
-                <div className="header" onClick={this.onClick}>
-                <span className="text">{this.props.header}</span><span className={["close",( this.state.open ? "opened" : "closed" )].join(" ")}></span>
-                </div>
-                <div className="body">
-                    {this.props.children}
-                </div>
-            </div>
-        )
-    }
+  var status = open ? "opened" : "closed";
+
+  return (
+    <div className={["help", status].join(" ")}>
+      <div className="header" onClick={onClick}>
+        <span className="text">{header}</span>
+        <span
+          className={["close", open ? "opened" : "closed"].join(" ")}
+        ></span>
+      </div>
+      <div className="body">{children}</div>
+    </div>
+  );
 }
+
+export default Help;

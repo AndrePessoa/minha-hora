@@ -1,42 +1,41 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import Panel from "./Panel.js";
-import { changeSalary } from "./PanelSalary.js";
-import { changeDays, changeHours } from "./PanelHours.js";
-import { changeArea, changePlace } from "./PanelResources.js";
-
-import Help from "./Help.js";
-import CurrencyInput from "react-currency-input";
 import NumberFormat from "react-number-format";
 import { Doughnut as PieChart } from "react-chartjs";
 import Checkbox from "./ui/Checkbox.js";
+import CurrencyInput from "./ui/CurrencyInput";
 
-class PanelFormComplete extends Panel {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ...this.props.data,
-      isSumVisible: 0,
-    };
+import useActions from "./hooks/useActions.js";
+import useInputs from "./hooks/useInputs.js";
+import usePanels from "./hooks/usePanel.js";
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputCurrencyChange = this.handleInputCurrencyChange.bind(this);
-    this.next = this.next.bind(this);
+function PanelFormComplete() {
+  const refSalary = useRef();
+  const refResult = useRef();
+  const { inputs } = useInputs();
+  const { nextPanel } = usePanels();
+  const {
+    changeSalary,
+    changeDays,
+    changeHours,
+    changeCheckbox,
+    changeSub,
+    changeSubValue,
+    changePerc,
+  } = useActions();
 
-    //Chart.defaults.global.responsive = true;
-  }
+  const [isSumVisible, setIsSumVisible] = useState(1);
 
-  componentDidMount() {
+  useEffect(() => {
     const iobserver = new window.IntersectionObserver(([entry]) =>
-      this.setState({ isSumVisible: entry.intersectionRatio })
+      setIsSumVisible(entry.intersectionRatio)
     );
-    iobserver.observe(this.refs.perhour.theInput);
-  }
+    iobserver.observe(refResult.current.theInput);
+  }, []);
 
-  renderChart() {
-    const percents = this.props.inputs.percents;
+  const renderChart = () => {
+    const percents = inputs.percents;
     const chartData = [
       {
         color: "#eff286",
@@ -77,424 +76,304 @@ class PanelFormComplete extends Panel {
     return (
       <PieChart className={"grafico"} data={chartData} options={chartOptions} />
     );
-  }
-
-  render() {
-    return (
-      <form
-        onSubmit={this.next}
-        className={[
-          "panel-group",
-          "panel-large",
-          "panel-complete",
-          this.props.className,
-        ].join(" ")}
-      >
-        <div className="panel">
-          <h3>Valor base</h3>
-          <div className="input-line">
-            <label>Salário</label>
-            <CurrencyInput
-              name="salary"
-              ref="salary"
-              value={this.props.inputs.salary}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSalary}
-              prefix="R$ "
-            />
-          </div>
-          <h3>Benefícios</h3>
-          <div className="input-line">
-            <label>Folga nos feriados</label>
-            <Checkbox
-              name="holidays"
-              value={this.props.inputs.holidays}
-              onChange={(value) => this.props.changeCheckbox(value, "holidays")}
-            ></Checkbox>
-          </div>
-          <div className="input-line">
-            <label>13o salário</label>
-            <Checkbox
-              name="annual_bonus"
-              value={this.props.changeCheckbox}
-              onChange={(value) =>
-                this.props.changeCheckbox(value, "annual_bonus")
-              }
-            />
-          </div>
-          <div className="input-line">
-            <label>Dias úteis de férias</label>
-            <input
-              type="number"
-              min="0"
-              max="90"
-              name="vacation"
-              defaultValue={this.props.inputs.vacation}
-              required
-              onChange={this.props.changeSub}
-            />
-          </div>
-          <div className="input-line">
-            <label>Plano de saúde</label>
-            <CurrencyInput
-              name="health_plan"
-              value={this.props.inputs.health_plan}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-          <div className="input-line">
-            <label>Previdência</label>
-            <CurrencyInput
-              name="pension"
-              value={this.props.inputs.pension}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-        </div>
-        <div className="panel">
-          <h3>Horas produtivas (produção)</h3>
-          <div className="input-line">
-            <label>Dias por semana</label>
-            <input
-              ref="days"
-              type="number"
-              min="1"
-              max="7"
-              name="days"
-              defaultValue={this.props.inputs.days}
-              required
-              onChange={this.props.changeDays}
-            />
-          </div>
-          <div className="input-line">
-            <label>Horas por dia</label>
-            <input
-              type="number"
-              min="1"
-              max="24"
-              name="hours"
-              defaultValue={this.props.inputs.hours}
-              required
-              onChange={this.props.changeHours}
-            />
-          </div>
-          <div className="input-line">
-            <label>Administração (%)</label>
-            <NumberFormat
-              name="admin_time"
-              value={this.props.inputs.admin_time * 100}
-              suffix=" %"
-              decimalScale={0}
-              allowNegative={false}
-              onValueChange={this.props.changePerc}
-            />
-          </div>
-          <div className="input-line">
-            <label>Projetos internos (%)</label>
-            <NumberFormat
-              name="selfprojects_time"
-              value={this.props.inputs.selfprojects_time * 100}
-              suffix=" %"
-              decimalScale={0}
-              allowNegative={false}
-              onValueChange={this.props.changePerc}
-            />
-          </div>
-          <div className="input-line">
-            <label>Prospecção (%)</label>
-            <NumberFormat
-              name="prospect_time"
-              value={this.props.inputs.prospect_time * 100}
-              suffix=" %"
-              decimalScale={0}
-              allowNegative={false}
-              onValueChange={this.props.changePerc}
-            />
-          </div>
-          <div className="input-line">
-            <label>Margem de risco (%)</label>
-            <NumberFormat
-              name="securitymargin_time"
-              value={this.props.inputs.securitymargin_time * 100}
-              suffix=" %"
-              decimalScale={0}
-              allowNegative={false}
-              onValueChange={this.props.changePerc}
-            />
-          </div>
-        </div>
-        <div className="panel">
-          <h3>Equipamento (capital investido)</h3>
-          <div className="input-line">
-            <label>custo de hardware</label>
-            <CurrencyInput
-              name="hardware_buy_cost"
-              value={this.props.inputs.hardware_buy_cost}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-          <div className="input-line">
-            <label>Ciclo de vida (meses)</label>
-            <input
-              type="number"
-              min="0"
-              max="96"
-              name="hardware_life_circle"
-              defaultValue={this.props.inputs.hardware_life_circle}
-              required
-              onChange={this.props.changeSub}
-            />
-          </div>
-          <div className="input-line">
-            <label>Preço de revenda</label>
-            <CurrencyInput
-              name="hardware_sell_cost"
-              value={this.props.inputs.hardware_sell_cost}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-
-          <div className="input-line">
-            <label>custo de software (compras)</label>
-            <CurrencyInput
-              name="software_buy_cost"
-              value={this.props.inputs.software_buy_cost}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-          <div className="input-line">
-            <label>custo de software (assinaturas)</label>
-            <CurrencyInput
-              name="software_rent_cost"
-              value={this.props.inputs.software_rent_cost}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-        </div>
-        <div className="panel">
-          <h3>Local (custo fíxo)</h3>
-          <div className="input-line">
-            <label>aluguel do imóvel</label>
-            <CurrencyInput
-              name="place_rent"
-              value={this.props.inputs.place_rent}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-          <div className="input-line">
-            <label>custo de internet + celular</label>
-            <CurrencyInput
-              name="place_internet"
-              value={this.props.inputs.place_internet}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-          <div className="input-line">
-            <label>contas gerais do imóvel</label>
-            <CurrencyInput
-              name="place_bills"
-              value={this.props.inputs.place_bills}
-              decimalSeparator=","
-              thousandSeparator="."
-              onChangeEvent={this.props.changeSubCurrency}
-              prefix="R$ "
-            />
-          </div>
-          <div className="input-line">
-            <label>% da área dedicada do imóvel</label>
-            <NumberFormat
-              name="place_percent"
-              value={this.props.inputs.place_percent * 100}
-              suffix=" %"
-              decimalScale={0}
-              allowNegative={false}
-              onValueChange={this.props.changePerc}
-            />
-          </div>
-          <div className="input-line">
-            <label>Impostos por mês</label>
-            <CurrencyInput
-              name="perhour"
-              ref="perhour"
-              value={this.props.inputs.percents.taxPerYear / 12}
-              decimalSeparator=","
-              thousandSeparator="."
-              prefix="R$ "
-              readOnly={true}
-            />
-          </div>
-        </div>
-        <div className="panel">
-          <h3>Resultados</h3>
-
-          <div
-            ref="floatTotal"
-            className={[
-              "floatTotal",
-              this.state.isSumVisible ? "hidden" : "",
-            ].join(" ")}
-          >
-            <label>Valor por hora</label>
-            <CurrencyInput
-              name="perhour"
-              ref="perhour"
-              value={this.props.inputs.perHour}
-              decimalSeparator=","
-              thousandSeparator="."
-              prefix="R$ "
-              readOnly={true}
-            />
-          </div>
-
-          <div className="input-line">
-            <label>Valor por hora</label>
-            <CurrencyInput
-              name="perhour"
-              ref="perhour"
-              value={this.props.inputs.perHour}
-              decimalSeparator=","
-              thousandSeparator="."
-              prefix="R$ "
-              readOnly={true}
-            />
-          </div>
-          <div className="input-line">
-            <label>Valor mensal</label>
-            <CurrencyInput
-              name="perMonth"
-              ref="perMonth"
-              value={this.props.inputs.percents.perYear / 12}
-              decimalSeparator=","
-              thousandSeparator="."
-              prefix="R$ "
-              readOnly={true}
-            />
-          </div>
-          <div className="input-line">
-            <label>Valor por ano</label>
-            <CurrencyInput
-              name="perYear"
-              ref="perYear"
-              value={this.props.inputs.percents.perYear}
-              decimalSeparator=","
-              thousandSeparator="."
-              prefix="R$ "
-              readOnly={true}
-            />
-          </div>
-          <h3>Proporção da composição de preço</h3>
-          {this.renderChart()}
-          <div className="action-line">
-            <Link className={["btn"].join(" ")} to={"/end"}>
-              que legal! O que mais?
-            </Link>
-          </div>
-        </div>
-      </form>
-    );
-  }
-}
-
-/* Reduxing */
-
-function mapStateToProps(state) {
-  return {
-    inputs: state.inputs,
-    panels: state.panels,
   };
+
+  return (
+    <form
+      onSubmit={nextPanel}
+      className={["panel-group", "panel-large", "panel-complete"].join(" ")}
+    >
+      <div className="panel">
+        <h3>Valor base</h3>
+        <div className="input-line">
+          <label>Salário</label>
+          <CurrencyInput
+            name="salary"
+            ref={refSalary}
+            value={inputs.salary}
+            onChange={(value) => changeSalary(value)}
+          />
+        </div>
+        <h3>Benefícios</h3>
+        <div className="input-line">
+          <label>Folga nos feriados</label>
+          <Checkbox
+            name="holidays"
+            value={inputs.holidays}
+            onChange={(value) => changeCheckbox(value, "holidays")}
+          ></Checkbox>
+        </div>
+        <div className="input-line">
+          <label>13o salário</label>
+          <Checkbox
+            name="annual_bonus"
+            value={inputs.annual_bonus}
+            onChange={(value) => changeCheckbox(value, "annual_bonus")}
+          />
+        </div>
+        <div className="input-line">
+          <label>Dias úteis de férias</label>
+          <input
+            type="number"
+            min="0"
+            max="90"
+            name="vacation"
+            value={inputs.vacation}
+            onChange={(event) =>
+              changeSub(
+                (event.target.value && parseInt(event.target.value)) || "",
+                `${event.target.name}`
+              )
+            }
+          />
+        </div>
+        <div className="input-line">
+          <label>Plano de saúde</label>
+          <CurrencyInput
+            name="health_plan"
+            value={inputs.health_plan}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>Previdência</label>
+          <CurrencyInput
+            name="pension"
+            value={inputs.pension}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+      </div>
+      <div className="panel">
+        <h3>Horas produtivas (produção)</h3>
+        <div className="input-line">
+          <label>Dias por semana</label>
+          <input
+            type="number"
+            min="1"
+            max="7"
+            name="days"
+            defaultValue={inputs.days}
+            onChange={(event) => changeDays(event.target.value)}
+          />
+        </div>
+        <div className="input-line">
+          <label>Horas por dia</label>
+          <input
+            type="number"
+            min="1"
+            max="24"
+            name="hours"
+            defaultValue={inputs.hours}
+            onChange={(event) => changeHours(event.target.value)}
+          />
+        </div>
+        <div className="input-line">
+          <label>Administração (%)</label>
+          <NumberFormat
+            name="admin_time"
+            value={inputs.admin_time * 100}
+            suffix=" %"
+            decimalScale={0}
+            allowNegative={false}
+            onValueChange={(values, event) =>
+              changePerc(values.floatValue, event.target.name)
+            }
+          />
+        </div>
+        <div className="input-line">
+          <label>Projetos internos (%)</label>
+          <NumberFormat
+            name="selfprojects_time"
+            value={inputs.selfprojects_time * 100}
+            suffix=" %"
+            decimalScale={0}
+            allowNegative={false}
+            onValueChange={(values, event) =>
+              changePerc(values.floatValue, event.target.name)
+            }
+          />
+        </div>
+        <div className="input-line">
+          <label>Prospecção (%)</label>
+          <NumberFormat
+            name="prospect_time"
+            value={inputs.prospect_time * 100}
+            suffix=" %"
+            decimalScale={0}
+            allowNegative={false}
+            onValueChange={(values, event) =>
+              changePerc(values.floatValue, event.target.name)
+            }
+          />
+        </div>
+        <div className="input-line">
+          <label>Margem de risco (%)</label>
+          <NumberFormat
+            name="securitymargin_time"
+            value={inputs.securitymargin_time * 100}
+            suffix=" %"
+            decimalScale={0}
+            allowNegative={false}
+            onValueChange={(values, event) =>
+              changePerc(values.floatValue, event.target.name)
+            }
+          />
+        </div>
+      </div>
+      <div className="panel">
+        <h3>Equipamento (capital investido)</h3>
+        <div className="input-line">
+          <label>custo de hardware</label>
+          <CurrencyInput
+            name="hardware_buy_cost"
+            value={inputs.hardware_buy_cost}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>Ciclo de vida (meses)</label>
+          <input
+            type="number"
+            min="0"
+            max="96"
+            name="hardware_life_circle"
+            defaultValue={inputs.hardware_life_circle}
+            onChange={(event) =>
+              changeSub(event.target.value, event.target.name)
+            }
+          />
+        </div>
+        <div className="input-line">
+          <label>Preço de revenda</label>
+          <CurrencyInput
+            name="hardware_sell_cost"
+            value={inputs.hardware_sell_cost}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+
+        <div className="input-line">
+          <label>custo de software (compras)</label>
+          <CurrencyInput
+            name="software_buy_cost"
+            value={inputs.software_buy_cost}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>custo de software (assinaturas)</label>
+          <CurrencyInput
+            name="software_rent_cost"
+            value={inputs.software_rent_cost}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+      </div>
+      <div className="panel">
+        <h3>Local e impostos (custo fíxo)</h3>
+        <div className="input-line">
+          <label>aluguel do imóvel</label>
+          <CurrencyInput
+            name="place_rent"
+            value={inputs.place_rent}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>custo de internet + celular</label>
+          <CurrencyInput
+            name="place_internet"
+            value={inputs.place_internet}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>contas gerais do imóvel</label>
+          <CurrencyInput
+            name="place_bills"
+            value={inputs.place_bills}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>% da área dedicada do imóvel ao trabalho</label>
+          <NumberFormat
+            name="place_percent"
+            value={inputs.place_percent * 100}
+            suffix=" %"
+            decimalScale={0}
+            allowNegative={false}
+            onValueChange={(values, event) =>
+              changePerc(values.floatValue, event.target.name)
+            }
+          />
+        </div>
+        <div className="input-line">
+          <label>custo diário de deslocamento</label>
+          <CurrencyInput
+            name="place_commute"
+            value={inputs.place_commute}
+            onChange={(value, name) => changeSubValue(value, name)}
+          />
+        </div>
+        <div className="input-line">
+          <label>Impostos por mês</label>
+          <CurrencyInput
+            name="perhour"
+            value={inputs.percents.taxPerYear / 12}
+            readOnly={true}
+          />
+        </div>
+      </div>
+      <div className="panel">
+        <h3>Resultados</h3>
+
+        <div className={["floatTotal", isSumVisible ? "hidden" : ""].join(" ")}>
+          <label>Valor por hora</label>
+          <CurrencyInput
+            name="perhour"
+            value={inputs.perHour}
+            readOnly={true}
+          />
+        </div>
+
+        <div className="input-line">
+          <label>Valor por hora</label>
+          <CurrencyInput
+            name="perhour"
+            ref={refResult}
+            value={inputs.perHour}
+            readOnly={true}
+          />
+        </div>
+        <div className="input-line">
+          <label>Valor mensal</label>
+          <CurrencyInput
+            name="perMonth"
+            value={inputs.percents.perYear / 12}
+            readOnly={true}
+          />
+        </div>
+        <div className="input-line">
+          <label>Valor por ano</label>
+          <CurrencyInput
+            name="perYear"
+            value={inputs.percents.perYear}
+            onChange
+            readOnly={true}
+          />
+        </div>
+        <h3>Proporção da composição de preço</h3>
+        {renderChart()}
+        <div className="action-line">
+          <Link className={["btn"].join(" ")} to={"/end"}>
+            que legal! O que mais?
+          </Link>
+        </div>
+      </div>
+    </form>
+  );
 }
 
-export function changeSub(value, name) {
-  return {
-    type: "UPDATE_SUB",
-    value,
-    name,
-  };
-}
-
-export function changeSubArea(value, name) {
-  return {
-    type: "UPDATE_AREA_SUB",
-    value,
-    name,
-  };
-}
-
-export function changeSubPlace(value, name) {
-  return {
-    type: "UPDATE_PLACE_SUB",
-    value,
-    name,
-  };
-}
-
-export function changeSubValue(value, name) {
-  return {
-    type: "UPDATE_SUB",
-    value,
-    name,
-  };
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  changeSalary(event, maskedvalue, floatvalue) {
-    return dispatch(changeSalary(floatvalue));
-  },
-  changeDays(event) {
-    return dispatch(changeDays(event.target.value));
-  },
-  changeHours(event) {
-    return dispatch(changeHours(event.target.value));
-  },
-  changeArea(seleted) {
-    return dispatch(changeArea(seleted.value));
-  },
-  changePlace(seleted) {
-    return dispatch(changePlace(seleted.value));
-  },
-  changeSub(event) {
-    return dispatch(changeSub(event.target.value, event.target.name));
-  },
-  changeSubArea(event) {
-    return dispatch(changeSubArea(event.target.value, event.target.name));
-  },
-  changeSubPlace(event) {
-    return dispatch(changeSubPlace(event.target.value, event.target.name));
-  },
-  changeCheckbox(value, name) {
-    return dispatch(changeSubValue(value, name));
-  },
-  changeSubCurrency(event, maskedvalue, floatvalue) {
-    return dispatch(changeSubValue(floatvalue, event.target.name));
-  },
-  changePerc(values, event) {
-    return dispatch(changeSubValue(values.floatValue / 100, event.target.name));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PanelFormComplete);
+export default PanelFormComplete;

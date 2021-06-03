@@ -26,6 +26,7 @@ const defaultValues = {
   area: null,
   room: null,
   place_rent: 0,
+  place_commute: 0,
   place_bills: 0,
   place_internet: 0,
   place_percent: 0,
@@ -89,6 +90,7 @@ const inputs = (state = defaultValues, action) => {
         place_bills: { $set: place.bills },
         place_internet: { $set: place.internet },
         place_percent: { $set: place.percent },
+        place_commute: { $set: place.commute },
       });
     // extended
     case "UPDATE_RESULT":

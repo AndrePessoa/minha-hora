@@ -1,32 +1,26 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
-export default class Checkbox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      status: !!this.props.value,
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
+function Checkbox({ value, onChange, children }) {
+  const [status, setStatus] = useState(!!value);
 
-  handleChange(event) {
-    const value = !this.state.status;
+  useEffect(() => setStatus(!!value), [value]);
 
-    this.setState({
-      status: value,
-    });
-    this.props.onChange(value);
-  }
+  const handleChange = (event) => {
+    const value = !status;
 
-  render() {
-    return (
-      <div className="checkbox-wrapper">
-        {this.props.children && <label>{this.props.children}</label>}
-        <button
-          className={["checkbox", this.state.status ? "checked" : ""].join(" ")}
-          onClick={this.handleChange}
-        ></button>
-      </div>
-    );
-  }
+    setStatus(value);
+    onChange(value);
+  };
+
+  return (
+    <div className="checkbox-wrapper">
+      {children && <label>{children}</label>}
+      <button
+        className={["checkbox", status ? "checked" : ""].join(" ")}
+        onClick={handleChange}
+      ></button>
+    </div>
+  );
 }
+
+export default Checkbox;

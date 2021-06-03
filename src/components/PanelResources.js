@@ -1,91 +1,70 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
-import Panel from './Panel.js';
-import Help from './Help.js';
-import Select from 'react-select';
+import Select from "react-select";
+import Help from "./Help.js";
 
-import Rooms from '../models/Rooms.js';
-import Areas from '../models/Areas.js';
-class PanelResources extends Panel {
-    constructor(props) {
-      super(props);
-    }
+import useActions from "./hooks/useActions.js";
+import useInputs from "./hooks/useInputs.js";
+import usePanels from "./hooks/usePanel.js";
 
-    setFocus(){
-        setTimeout(()=>{ this.refs.area.focus(); } , 100 );
-    }
+import Rooms from "../models/Rooms.js";
+import Areas from "../models/Areas.js";
 
-    render() {
-        let { area, room } = this.props.inputs,
-            areaObject = Areas[area],
-            roomObject = Rooms[room],
-            status = this.props.panels.resources;
+function PanelResources() {
+  const ref = useRef();
+  const { inputs } = useInputs();
+  const { panels, nextPanel } = usePanels();
+  const { changeArea, changePlace } = useActions();
 
-      return (
-        <form onSubmit={this.next} className={['panel', (this.state.status?"panel-complete":""),this.props.className].join(' ')}>
-            <h2>qual a sua área de atuação?</h2>
-            <Select 
-                ref="area"
-                name="area"
-                value={areaObject}
-                options={Areas}
-                onChange={this.props.changeArea}
-                />
-            <Help header="">
-                <p>Qual das opções mais se parece tecnicamente com o ramo de atividade que você exerce.</p>
-            </Help>
-            <h2>de que tipo de ambiente você precisa?</h2>
-            <Select 
-                name="room"
-                value={roomObject}
-                options={Rooms} 
-                onChange={this.props.changePlace}
-                />
-            <Help header="">
-                <p>Qual o espaço necessário para o seu trabalho.</p>
-                <p>Esse espaço pode ser compartilhado ou estar inserido dentro de outros contextos.</p>
-            </Help>
-            <div className="action-line">
-              <Link className={['btn', (status?"":"btn-disabled")].join(' ')} disabled={!status} to={status?"/result":""}>pronto!</Link>
-            </div>
-        </form>
-      );
-    }
+  let { area, room } = inputs,
+    areaObject = Areas[area],
+    roomObject = Rooms[room],
+    status = panels.resources;
+
+  return (
+    <form
+      onSubmit={nextPanel}
+      className={["panel", status ? "panel-complete" : ""].join(" ")}
+    >
+      <h2>qual a sua área de atuação?</h2>
+      <Select
+        name="area"
+        value={areaObject}
+        options={Areas}
+        onChange={(selected) => changeArea(selected ? selected.value : null)}
+      />
+      <Help header="">
+        <p>
+          Qual das opções mais se parece tecnicamente com o ramo de atividade
+          que você exerce.
+        </p>
+      </Help>
+      <h2>de que tipo de ambiente você precisa?</h2>
+      <Select
+        name="room"
+        value={roomObject}
+        options={Rooms}
+        onChange={(selected) => changePlace(selected ? selected.value : null)}
+      />
+      <Help header="">
+        <p>Qual o espaço necessário para o seu trabalho.</p>
+        <p>
+          Esse espaço pode ser compartilhado ou estar inserido dentro de outros
+          contextos.
+        </p>
+      </Help>
+      <div className="action-line">
+        <Link
+          className={["btn", status ? "" : "btn-disabled"].join(" ")}
+          disabled={!status}
+          to={status ? "/result" : ""}
+        >
+          pronto!
+        </Link>
+      </div>
+    </form>
+  );
 }
 
-
-/* Reduxing */
-
-function mapStateToProps(state) {
-    return { 
-      inputs: state.inputs,
-      panels: state.panels
-    }
-  }
-  
-  export function changeArea(value) {
-    return {
-      type: 'UPDATE_ASSETS',
-      value
-    }
-  }
-
-  export function changePlace(value) {
-    return {
-      type: 'UPDATE_PLACE',
-      value
-    }
-  }
-  
-  const mapDispatchToProps = dispatch =>({
-    changeArea( seleted ){
-      return dispatch(changeArea( seleted ? seleted.value : null ));
-    },
-    changePlace( seleted ){
-      return dispatch(changePlace( seleted ? seleted.value  : null ));
-    }
-  });
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(PanelResources)
+export default PanelResources;
