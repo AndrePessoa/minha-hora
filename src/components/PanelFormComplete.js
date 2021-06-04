@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import NumberFormat from "react-number-format";
-import { Doughnut as PieChart } from "react-chartjs";
+import { Doughnut as PieChart } from "react-chartjs-2";
 import Checkbox from "./ui/Checkbox.js";
 import CurrencyInput from "./ui/CurrencyInput";
 
@@ -36,45 +36,71 @@ function PanelFormComplete() {
 
   const renderChart = () => {
     const percents = inputs.percents;
-    const chartData = [
-      {
-        color: "#eff286",
-        strokeWidth: 0,
-        value: percents.personal,
-        label: "Pessoal",
-      },
-      {
-        color: "#02C39A",
-        strokeWidth: 0,
-        value: percents.admin,
-        label: "Administração",
-      },
-      {
-        color: "#00A896",
-        strokeWidth: 0,
-        value: percents.place,
-        label: "Insumos",
-      },
-      {
-        color: "#028090",
-        strokeWidth: 0,
-        value: percents.assets,
-        label: "Infra-estrutura",
-      },
-      {
-        color: "#05668D",
-        strokeWidth: 0,
-        value: percents.tax,
-        label: "Impostos",
-      },
-    ];
+    const chartData = {
+      labels: [
+        "Pessoal",
+        "Administração",
+        "Insumos",
+        "Infra-estrutura",
+        "Impostos",
+      ],
+      datasets: [
+        {
+          label: "",
+          data: [
+            percents.personal,
+            percents.admin,
+            percents.place,
+            percents.assets,
+            percents.tax,
+          ],
+          backgroundColor: [
+            "#eff286",
+            "#02C39A",
+            "#00A896",
+            "#028090",
+            "#05668D",
+          ],
+          borderWidth: 0,
+        },
+      ],
+    };
     const chartOptions = {
-      segmentStrokeWidth: 0,
-      segmentStrokeColor: "#3e3e3e",
-      tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>%",
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            labelColor: function (context) {
+              return {
+                borderColor: "#3e3e3e",
+                backgroundColor:
+                  context.dataset.backgroundColor[context.dataIndex],
+                borderWidth: 0,
+                borderRadius: 2,
+              };
+            },
+            label: function (context) {
+              var label = " " + context.label || "";
+
+              if (label) {
+                label += " : ";
+              }
+              if (context.parsed !== null) {
+                label += context.parsed + "%";
+              }
+              return label;
+            },
+          },
+        },
+      },
     };
     return (
-      <PieChart className={"grafico"} data={chartData} options={chartOptions} />
+      <PieChart
+        type="bar"
+        className={"grafico"}
+        data={chartData}
+        options={chartOptions}
+      />
     );
   };
 
