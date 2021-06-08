@@ -325,10 +325,16 @@ nav ul {
     text-align: left;
   }
 
+  .line {
+    display: flex;
+    gap: 10px;
+  }
+
   .input-line {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    flex: 1;
 
     input[type="text"],
     input[type="number"],
@@ -336,8 +342,6 @@ nav ul {
     .Select-control {
       margin: 3px 0;
       padding: 4px;
-      min-width: 250px;
-      width: calc(100% - 12px);
     }
     .Select-control {
       padding: 0px;
@@ -366,21 +370,49 @@ nav ul {
     border-radius: 4px 4px 4px 4px;
     margin: 12px 0;
     padding: 8px;
-    min-width: 250px;
+    width: 100%;
     font-size: 16px;
+    transition: all 0.6s;
+    box-sizing: border-box;
 
     &:first-child {
       margin: 0;
     }
 
+    &::selection {
+      color: $pri-color;
+      background: darken($yellow, 20);
+    }
+
     &[readonly] {
+      background: none repeat scroll 0 0;
+      background-color: rgba(255, 255, 255, 0.7);
+      font-style: italic;
+      color: rgba(0, 0, 0, 0.8);
+      cursor: default;
+    }
+
+    &.highlight[readonly] {
       background: none repeat scroll 0 0 $pri-color;
       border: 2px solid $yellow !important;
       color: #ffffff;
     }
+
+    &.blink,
+    &[readonly].blink {
+      color: $pri-color;
+      background: darken($yellow, 20);
+      transition: all 0.2s;
+    }
   }
-  .Select-control {
-    padding: 0px;
+
+  .Select {
+    display: flex;
+    margin: 12px 0;
+
+    .Select-control {
+      padding: 0px;
+    }
   }
 
   & > p {
@@ -494,7 +526,7 @@ nav ul {
   }
 
   .grafico {
-    margin-top: 25px;
+    margin: 25px;
   }
 
   .floatTotal {

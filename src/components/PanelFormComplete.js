@@ -172,78 +172,104 @@ function PanelFormComplete() {
       </div>
       <div className="panel">
         <h3>Horas produtivas (produção)</h3>
+        <div className="line">
+          <div className="input-line">
+            <label>Dias por semana</label>
+            <input
+              type="number"
+              min="1"
+              max="7"
+              name="days"
+              defaultValue={inputs.days}
+              onChange={(event) => changeDays(event.target.value)}
+            />
+          </div>
+          <div className="input-line">
+            <label>Horas por dia</label>
+            <input
+              type="number"
+              min="1"
+              max="24"
+              name="hours"
+              defaultValue={inputs.hours}
+              onChange={(event) => changeHours(event.target.value)}
+            />
+          </div>
+        </div>
         <div className="input-line">
-          <label>Dias por semana</label>
+          <label>Total de horas por ano</label>
           <input
-            type="number"
-            min="1"
-            max="7"
-            name="days"
-            defaultValue={inputs.days}
-            onChange={(event) => changeDays(event.target.value)}
+            type="text"
+            name="total_year_hours"
+            value={`${inputs.total_hours} horas`}
+            readOnly
           />
         </div>
+
+        <h3>Horas administrativas (custo variável)</h3>
+        <div className="line">
+          <div className="input-line">
+            <label>Administração (%)</label>
+            <NumberFormat
+              name="admin_time"
+              value={inputs.admin_time * 100}
+              suffix=" %"
+              decimalScale={0}
+              allowNegative={false}
+              onValueChange={(values, event) =>
+                changePerc(values.floatValue, event.target.name)
+              }
+            />
+          </div>
+          <div className="input-line">
+            <label>Projetos internos (%)</label>
+            <NumberFormat
+              name="selfprojects_time"
+              value={inputs.selfprojects_time * 100}
+              suffix=" %"
+              decimalScale={0}
+              allowNegative={false}
+              onValueChange={(values, event) =>
+                changePerc(values.floatValue, event.target.name)
+              }
+            />
+          </div>
+        </div>
+        <div className="line">
+          <div className="input-line">
+            <label>Prospecção (%)</label>
+            <NumberFormat
+              name="prospect_time"
+              value={inputs.prospect_time * 100}
+              suffix=" %"
+              decimalScale={0}
+              allowNegative={false}
+              onValueChange={(values, event) =>
+                changePerc(values.floatValue, event.target.name)
+              }
+            />
+          </div>
+          <div className="input-line">
+            <label>Margem de risco (%)</label>
+            <NumberFormat
+              name="securitymargin_time"
+              value={inputs.securitymargin_time * 100}
+              suffix=" %"
+              decimalScale={0}
+              allowNegative={false}
+              onValueChange={(values, event) =>
+                changePerc(values.floatValue, event.target.name)
+              }
+            />
+          </div>
+        </div>
         <div className="input-line">
-          <label>Horas por dia</label>
+          <label>Total de horas remunerdas</label>
           <input
-            type="number"
-            min="1"
-            max="24"
-            name="hours"
-            defaultValue={inputs.hours}
-            onChange={(event) => changeHours(event.target.value)}
-          />
-        </div>
-        <div className="input-line">
-          <label>Administração (%)</label>
-          <NumberFormat
-            name="admin_time"
-            value={inputs.admin_time * 100}
-            suffix=" %"
-            decimalScale={0}
-            allowNegative={false}
-            onValueChange={(values, event) =>
-              changePerc(values.floatValue, event.target.name)
-            }
-          />
-        </div>
-        <div className="input-line">
-          <label>Projetos internos (%)</label>
-          <NumberFormat
-            name="selfprojects_time"
-            value={inputs.selfprojects_time * 100}
-            suffix=" %"
-            decimalScale={0}
-            allowNegative={false}
-            onValueChange={(values, event) =>
-              changePerc(values.floatValue, event.target.name)
-            }
-          />
-        </div>
-        <div className="input-line">
-          <label>Prospecção (%)</label>
-          <NumberFormat
-            name="prospect_time"
-            value={inputs.prospect_time * 100}
-            suffix=" %"
-            decimalScale={0}
-            allowNegative={false}
-            onValueChange={(values, event) =>
-              changePerc(values.floatValue, event.target.name)
-            }
-          />
-        </div>
-        <div className="input-line">
-          <label>Margem de risco (%)</label>
-          <NumberFormat
-            name="securitymargin_time"
-            value={inputs.securitymargin_time * 100}
-            suffix=" %"
-            decimalScale={0}
-            allowNegative={false}
-            onValueChange={(values, event) =>
-              changePerc(values.floatValue, event.target.name)
-            }
+            type="text"
+            name="total_payed_hours"
+            value={`${inputs.payed_hours} horas`}
+            readOnly
           />
         </div>
       </div>
@@ -348,7 +374,7 @@ function PanelFormComplete() {
           <CurrencyInput
             name="perhour"
             value={inputs.percents.taxPerYear / 12}
-            readOnly={true}
+            readOnly
           />
         </div>
       </div>
@@ -360,7 +386,8 @@ function PanelFormComplete() {
           <CurrencyInput
             name="perhour"
             value={inputs.perHour}
-            readOnly={true}
+            readOnly
+            highlight
           />
         </div>
 
@@ -370,7 +397,8 @@ function PanelFormComplete() {
             name="perhour"
             ref={refResult}
             value={inputs.perHour}
-            readOnly={true}
+            highlight
+            readOnly
           />
         </div>
         <div className="input-line">
@@ -378,7 +406,7 @@ function PanelFormComplete() {
           <CurrencyInput
             name="perMonth"
             value={inputs.percents.perYear / 12}
-            readOnly={true}
+            readOnly
           />
         </div>
         <div className="input-line">
@@ -387,7 +415,7 @@ function PanelFormComplete() {
             name="perYear"
             value={inputs.percents.perYear}
             onChange
-            readOnly={true}
+            readOnly
           />
         </div>
         <h3>Proporção da composição de preço</h3>

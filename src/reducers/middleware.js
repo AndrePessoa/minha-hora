@@ -48,11 +48,15 @@ export const verifyResult = (store) => (next) => (action) => {
         coreFinMath.setData(inputs);
         const perHour = coreFinMath.getPerHour();
         const percents = coreFinMath.getPercents();
+        const totalHours = Math.round(coreFinMath.getTotalHours() * 100) / 100;
+        const payedHours = Math.round(coreFinMath.getPayedHours() * 100) / 100;
 
         store.dispatch({
           type: "UPDATE_RESULT",
           perHour: perHour,
           percents: percents,
+          total_hours: totalHours,
+          payed_hours: payedHours,
         });
       }
 

@@ -4,22 +4,33 @@ export default Object.assign(
     setData(values) {
       for (var i in values) this[i] = values[i];
     },
-    getPerHour() {
-      this.total_salary = (this.annual_bonus ? 13 : 12) * this.salary;
-
+    getTotalHours() {
       let total_days = 365 - this.vacation;
       let workdays =
         (total_days / 7) * this.days -
         (this.holidays ? this._holidaysPerYear : 0);
-      let total_hours = workdays * this.hours;
+      this.total_hours = workdays * this.hours;
 
+      return this.total_hours;
+    },
+    getPayedHours() {
+      const total_hours = this.getTotalHours();
       this.reserve_time =
         this.admin_time +
         this.selfprojects_time +
         this.prospect_time +
         this.securitymargin_time;
       this.payed_hours = total_hours * (1 - this.reserve_time);
-      this.reserved_hours = total_hours * this.reserve_time;
+
+      return this.payed_hours;
+    },
+    getPerHour() {
+      this.total_salary = (this.annual_bonus ? 13 : 12) * this.salary;
+
+      const total_hours = this.getTotalHours();
+      const payed_hours = this.getPayedHours();
+
+      this.reserved_hours = total_hours - payed_hours;
 
       this.total_income =
         this.total_salary +

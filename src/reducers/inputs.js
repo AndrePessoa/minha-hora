@@ -22,6 +22,8 @@ const defaultValues = {
   hours: 0,
   days: 0,
   weekdays: [],
+  total_hours: 0,
+  payed_hours: 0,
   // work cost
   area: null,
   room: null,
@@ -97,6 +99,8 @@ const inputs = (state = defaultValues, action) => {
       return update(state, {
         perHour: { $set: action.perHour },
         percents: { $set: action.percents },
+        total_hours: { $set: action.total_hours },
+        payed_hours: { $set: action.payed_hours },
       });
     case "UPDATE_SUB":
       return update(state, {

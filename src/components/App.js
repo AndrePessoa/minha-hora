@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "../App.scss";
@@ -28,13 +28,16 @@ function App() {
             <Nav />
           </div>
           <div id="panels">
-            <Route exact path="/" component={PanelSalary} />
-            <Route path="/salary" component={PanelSalary} />
-            <Route path="/hours" component={PanelHours} />
-            <Route path="/resources" component={PanelResources} />
-            <Route path="/result" component={PanelResult} />
-            <Route path="/complete" component={PanelFormComplete} />
-            <Route path="/end" component={PanelEnd} />
+            <Switch>
+              <Route path="/salary" component={PanelSalary} />
+              <Route path="/hours" component={PanelHours} />
+              <Route path="/resources" component={PanelResources} />
+              <Route path="/result" component={PanelResult} />
+              <Route path="/complete" component={PanelFormComplete} />
+              <Route path="/end" component={PanelEnd} />
+
+              <Route path="*" component={PanelSalary} />
+            </Switch>
           </div>
         </main>
       </Router>

@@ -21,7 +21,7 @@ function PanelResult() {
       className={["panel", status ? "panel-complete" : ""].join(" ")}
     >
       <h2>O custo da sua hora deve ser de</h2>
-      <CurrencyInput name="salary" value={result} readOnly={true} />
+      <CurrencyInput name="salary" value={result} readOnly highlight />
       <Help header="">
         <p>Esse valor é calculado sobre um cenário estimado.</p>
         <p>
