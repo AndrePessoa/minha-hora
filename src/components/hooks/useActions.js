@@ -1,8 +1,10 @@
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function useActions() {
   const dispatch = useDispatch();
+  const areas = useSelector((state) => state.globals.areas) || [];
+  const rooms = useSelector((state) => state.globals.rooms) || [];
 
   const doReset = useCallback(() => {
     return dispatch({
@@ -54,20 +56,22 @@ function useActions() {
     (value) => {
       return dispatch({
         type: "UPDATE_ASSETS",
-        value,
+        value: areas[value],
+        id: value,
       });
     },
-    [dispatch]
+    [dispatch, areas]
   );
 
   const changePlace = useCallback(
     (value) => {
       return dispatch({
         type: "UPDATE_PLACE",
-        value,
+        value: rooms[value],
+        id: value,
       });
     },
-    [dispatch]
+    [dispatch, rooms]
   );
 
   const changeSub = useCallback(

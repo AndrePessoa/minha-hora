@@ -53,7 +53,7 @@ function PanelSalary() {
             to={status ? "/hours" : ""}
             onClick={() => doReset()}
           >
-            refazer
+            recomeçar
           </span>
         )}
       </div>

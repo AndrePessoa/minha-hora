@@ -7,19 +7,18 @@ import Help from "./Help.js";
 import useActions from "./hooks/useActions.js";
 import useInputs from "./hooks/useInputs.js";
 import usePanels from "./hooks/usePanel.js";
-
-import Rooms from "../models/Rooms.js";
-import Areas from "../models/Areas.js";
+import useGlobals from "./hooks/useGlobals";
 
 function PanelResources() {
   const ref = useRef();
   const { inputs } = useInputs();
   const { panels, nextPanel } = usePanels();
   const { changeArea, changePlace } = useActions();
+  const { rooms, areas } = useGlobals();
 
   let { area, room } = inputs,
-    areaObject = Areas[area],
-    roomObject = Rooms[room],
+    areaObject = areas?.[area],
+    roomObject = rooms?.[room],
     status = panels.resources;
 
   return (
@@ -31,7 +30,7 @@ function PanelResources() {
       <Select
         name="area"
         value={areaObject}
-        options={Areas}
+        options={areas}
         onChange={(selected) => changeArea(selected ? selected.value : null)}
       />
       <Help header="">
@@ -44,7 +43,7 @@ function PanelResources() {
       <Select
         name="room"
         value={roomObject}
-        options={Rooms}
+        options={rooms}
         onChange={(selected) => changePlace(selected ? selected.value : null)}
       />
       <Help header="">

@@ -88,7 +88,7 @@ function PanelHours() {
         min="1"
         max="24"
         name="hours"
-        value={hours}
+        value={hours || 1}
         onChange={(event) => changeHours(event.target.value)}
       />
       <Help header="">

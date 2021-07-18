@@ -4,11 +4,30 @@
   display: none;
 }
 
+.loading {
+  border: 2px solid white;
+  border-bottom-color: transparent;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: fixed;
+  left: calc(50% - 25px);
+  top: calc(50% - 25px);
+  animation: spin 1s linear infinite;
+}
+
 main {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
   width: 100%;
-  margin: 0 auto;
+  margin: 50px auto 0;
   padding: 0;
   box-sizing: border-box;
+
+  @media screen and (max-width: $small-screen) {
+    display: block;
+  }
+
   p {
     color: white;
     margin-bottom: 1em;
@@ -19,7 +38,7 @@ main {
     color: #ffffff;
     display: block;
     width: 300px;
-    margin: 50px auto 0;
+    margin: 0 auto;
 
     path {
       fill: white;
@@ -37,19 +56,30 @@ main {
     }
   }
 
+  #top {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    #header {
+      position: sticky;
+      top: 75px;
+    }
+  }
+
   #panels {
+    display: flex;
+    justify-content: flex-start;
+    grid-column: 2;
+    grid-row: 1;
     padding-bottom: 50px;
 
     .panels-wrap {
       width: 100%;
       text-align: left;
       transition: all 0.5s;
-
-      // @for $i from 0 through 5 {
-      //     &.panel-#{$i}{
-      //         margin-left: ( -100% * $i );
-      //     }
-      // }
     }
   }
 
@@ -97,49 +127,68 @@ aside {
   }
 }
 
-nav ul {
-  display: block;
-  margin: 25px auto 0;
-  text-align: right;
-  padding: 0 10px;
-  max-width: 90vw;
-  width: 300px;
+nav {
+  display: flex;
+  max-width: 300px;
+  justify-content: flex-end;
+  flex-direction: row;
 
-  li {
-    display: inline-block;
-    width: 40px;
-    height: 10px;
-    /* border-radius: 50%; */
-    margin: 0 1px;
-    background-color: #818181;
-    -webkit-transition: all 0.5s;
-    -o-transition: all 0.5s;
-    transition: all 0.5s;
+  ul {
+    display: block;
+    margin: 25px 0 0;
+    text-align: right;
+    padding: 0 0 0 10px;
+    max-width: 90vw;
 
-    &:first-child {
-      border-radius: 5px 0 0 5px;
-    }
-    &:last-child {
-      border-radius: 0 5px 5px 0;
-    }
+    li {
+      display: inline-block;
+      width: 40px;
+      height: 10px;
 
-    &.enabled {
-      background-color: #cacaca;
-      cursor: pointer;
+      margin: 0 1px;
+      background-color: #2a3346;
 
-      a {
-        width: 100%;
-        height: 100%;
-        display: block;
+      -webkit-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;
+
+      &:first-child {
+        border-radius: 5px 0 0 5px;
       }
 
-      &:hover {
-        background-color: white;
+      &:last-child {
+        border-radius: 0 5px 5px 0;
       }
-    }
-    &.active {
-      background-color: $yellow;
-      cursor: pointer;
+
+      &:last-child:first-child {
+        border-radius: 5px;
+      }
+
+      &.enabled {
+        background-color: #cacaca;
+        cursor: pointer;
+        box-shadow: none;
+
+        a {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+
+        &:hover {
+          background-color: white;
+        }
+      }
+
+      &.disabled {
+        box-shadow: 0 0 0 1px rgba(24, 29, 40, 33%);
+      }
+
+      &.active {
+        background-color: $yellow;
+        cursor: pointer;
+        box-shadow: none;
+      }
     }
   }
 }
@@ -149,10 +198,14 @@ nav ul {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: stretch;
-  gap: 25px 0;
+  grid-gap: 25px 0;
+  gap: 25px;
+  justify-content: flex-start;
 
   @media screen and (max-width: $small-screen) {
     gap: 0;
+
+    justify-content: flex-end;
   }
 }
 
@@ -180,7 +233,6 @@ nav ul {
 
   width: 350px;
   max-width: 90vw;
-  margin: 0 auto;
 
   &:before {
     content: "";
@@ -247,9 +299,15 @@ nav ul {
     transition: all 0.5s;
 
     &[disabled] {
-      background: $sec-color;
-      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+      // background: $sec-color;
+      // box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+      // pointer-events: none;
+      // cursor: default;
+
+      background: #1a1f2b;
+      box-shadow: 0px 0px 0px 1px rgb(42, 51, 70);
       pointer-events: none;
+      color: #2a3346;
       cursor: default;
     }
 
@@ -302,6 +360,10 @@ nav ul {
 
       &.checked {
         background-color: $yellow;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 2px $pri-color inset, 0 0 0 1px white;
       }
 
       &:hover {
@@ -368,16 +430,12 @@ nav ul {
   .Select-control {
     border: 2px solid $sec-color !important;
     border-radius: 4px 4px 4px 4px;
-    margin: 12px 0;
+    margin: 12px 0 0;
     padding: 8px;
     width: 100%;
     font-size: 16px;
     transition: all 0.6s;
     box-sizing: border-box;
-
-    &:first-child {
-      margin: 0;
-    }
 
     &::selection {
       color: $pri-color;
@@ -408,7 +466,7 @@ nav ul {
 
   .Select {
     display: flex;
-    margin: 12px 0;
+    margin: 12px 0 0;
 
     .Select-control {
       padding: 0px;
@@ -461,7 +519,7 @@ nav ul {
         text-align: right;
         width: calc(100% - 30px);
         display: inline-block;
-        margin-right: 10px;
+        margin-right: 9px;
       }
 
       .close {
@@ -477,7 +535,7 @@ nav ul {
         text-align: center;
         font-weight: bolder;
         padding: 2px 1px 0 1px;
-        transition: all 0.5s;
+        transition: all 0.15s;
 
         &.opened {
           border-radius: 0%;
@@ -558,5 +616,12 @@ nav ul {
       box-shadow: 0px 0px 0px 0px black;
       display: block;
     }
+  }
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

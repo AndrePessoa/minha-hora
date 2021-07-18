@@ -12,6 +12,8 @@ function Nav() {
   const allComplete = Object.values(panels).indexOf(false) == -1;
   const allIncomplete = Object.values(panels).indexOf(true) == -1;
 
+  const isEnd = currentPath === "end";
+
   return (
     <nav>
       <ul>
@@ -40,6 +42,13 @@ function Nav() {
             );
           })}
       </ul>
+      {allComplete && (
+        <ul>
+          <li className={[isEnd ? "active" : "", "enabled"].join(" ")}>
+            <Link data-index={"end"} to={"/end"}></Link>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 }

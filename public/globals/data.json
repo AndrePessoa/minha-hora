@@ -1,0 +1,157 @@
+{
+  "rooms": [
+    {
+      "value": "0",
+      "label": "Quarto de empregada",
+      "description": "",
+      "commute": 0,
+      "rent": 2250,
+      "bills": 250,
+      "internet": 250,
+      "percent": 0.2
+    },
+    {
+      "value": "1",
+      "label": "Quarto de dormir e home-office",
+      "description": "",
+      "commute": 0,
+      "rent": 2250,
+      "bills": 350,
+      "internet": 250,
+      "percent": 0.15
+    },
+    {
+      "value": "2",
+      "label": "Quarto só para home-office",
+      "description": "",
+      "commute": 0,
+      "rent": 2500,
+      "bills": 350,
+      "internet": 250,
+      "percent": 0.3
+    },
+    {
+      "value": "3",
+      "label": "Sala comercial compartilhada",
+      "description": "",
+      "commute": 10,
+      "rent": 1000,
+      "bills": 0,
+      "internet": 150,
+      "percent": 1
+    },
+    {
+      "value": "4",
+      "label": "Sala comercial própria",
+      "description": "",
+      "commute": 10,
+      "rent": 2500,
+      "bills": 250,
+      "internet": 250,
+      "percent": 1
+    },
+    {
+      "value": "5",
+      "label": "Alocado no cliente",
+      "description": "",
+      "commute": 10,
+      "rent": 0,
+      "bills": 0,
+      "internet": 0,
+      "percent": 0
+    }
+  ],
+  "areas": [
+    {
+      "value": "0",
+      "label": "Programação back-end",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 100,
+        "rent": 100
+      },
+      "hardware": {
+        "buy": 2500,
+        "sell": 1000
+      }
+    },
+    {
+      "value": "1",
+      "label": "Programação front-end",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 100,
+        "rent": 175
+      },
+      "hardware": {
+        "buy": 3500,
+        "sell": 1500
+      }
+    },
+    {
+      "value": "2",
+      "label": "Design Gráfico",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 200,
+        "rent": 175
+      },
+      "hardware": {
+        "buy": 4500,
+        "sell": 1500
+      }
+    },
+    {
+      "value": "3",
+      "label": "Design de produto",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 500,
+        "rent": 500
+      },
+      "hardware": {
+        "buy": 5000,
+        "sell": 1500
+      }
+    },
+    {
+      "value": "4",
+      "label": "Ilustração",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 500,
+        "rent": 125
+      },
+      "hardware": {
+        "buy": 5000,
+        "sell": 1500
+      }
+    },
+    {
+      "value": "5",
+      "label": "Ilustração 3d",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 500,
+        "rent": 575
+      },
+      "hardware": {
+        "buy": 6500,
+        "sell": 1500
+      }
+    },
+    {
+      "value": "6",
+      "label": "Animação",
+      "description": "Lorem ipsum",
+      "software": {
+        "buy": 500,
+        "rent": 575
+      },
+      "hardware": {
+        "buy": 7500,
+        "sell": 1500
+      }
+    }
+  ]
+}

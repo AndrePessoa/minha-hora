@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -11,36 +11,50 @@ import PanelResources from "./PanelResources.js";
 import PanelResult from "./PanelResult.js";
 import PanelFormComplete from "./PanelFormComplete.js";
 import PanelEnd from "./PanelEnd.js";
+import useGlobals from "./hooks/useGlobals";
 
 /*import PanelEnd from "./PanelEnd.js";*/
 import Illustrations from "./Illustrations.svg.js";
 import Logo from "./Logo.svg.js";
+import Loading from "./ui/Loading";
 
 function App() {
+  const { loading, loadGlobals } = useGlobals();
+
+  useEffect(() => {
+    loadGlobals();
+  }, []);
+
   return (
     <div className="app">
-      <Router>
-        <main>
-          <div id="top">
-            <h1 id="logo">
-              <Logo />
-            </h1>
-            <Nav />
-          </div>
-          <div id="panels">
-            <Switch>
-              <Route path="/salary" component={PanelSalary} />
-              <Route path="/hours" component={PanelHours} />
-              <Route path="/resources" component={PanelResources} />
-              <Route path="/result" component={PanelResult} />
-              <Route path="/complete" component={PanelFormComplete} />
-              <Route path="/end" component={PanelEnd} />
-
-              <Route path="*" component={PanelSalary} />
-            </Switch>
-          </div>
-        </main>
-      </Router>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Router>
+          <main>
+            <div id="top">
+              <div id="header">
+                <h1 id="logo">
+                  <Logo />
+                  {loading && <div>Loading</div>}
+                </h1>
+                <Nav />
+              </div>
+            </div>
+            <div id="panels">
+              <Switch>
+                <Route path="/salary" component={PanelSalary} />
+                <Route path="/hours" component={PanelHours} />
+                <Route path="/resources" component={PanelResources} />
+                <Route path="/result" component={PanelResult} />
+                <Route path="/complete" component={PanelFormComplete} />
+                <Route path="/end" component={PanelEnd} />
+                <Route path="*" component={PanelSalary} />
+              </Switch>
+            </div>
+          </main>
+        </Router>
+      )}
     </div>
   );
 }

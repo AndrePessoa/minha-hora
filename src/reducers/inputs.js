@@ -1,6 +1,4 @@
 import update from "immutability-helper";
-import Rooms from "../models/Rooms.js";
-import Areas from "../models/Areas.js";
 
 const defaultValues = {
   perHour: 0,
@@ -62,13 +60,12 @@ const inputs = (state = defaultValues, action) => {
     case "UPDATE_HOURS":
       return update(state, { hours: { $set: action.value } });
     case "UPDATE_ASSETS":
-      const areaId = action.value;
-      const area = Areas[areaId] || {
+      const area = action.value || {
         software: { buy: 0, rent: 0 },
         hardware: { buy: 0, sell: 0 },
       };
       return update(state, {
-        area: { $set: areaId },
+        area: { $set: action.id },
         software_buy_cost: { $set: area.software.buy },
         software_rent_cost: { $set: area.software.rent },
         hardware_buy_cost: { $set: area.hardware.buy },
@@ -79,15 +76,14 @@ const inputs = (state = defaultValues, action) => {
         [action.name]: { $set: action.value },
       });
     case "UPDATE_PLACE":
-      const placeId = action.value;
-      const place = Rooms[placeId] || {
+      const place = action.value || {
         rent: 0,
         bills: 0,
         internet: 0,
         percent: 0,
       };
       return update(state, {
-        room: { $set: placeId },
+        room: { $set: action.id },
         place_rent: { $set: place.rent },
         place_bills: { $set: place.bills },
         place_internet: { $set: place.internet },

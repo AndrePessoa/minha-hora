@@ -1,10 +1,12 @@
-import { combineReducers } from 'redux'
-import panels from './panels'
-import inputs from './inputs'
+import { combineReducers } from "redux";
+import panels from "./panels";
+import inputs from "./inputs";
+import globals from "./globals";
 
 const panelsApp = combineReducers({
   panels,
-  inputs
-})
-  
-export default panelsApp
+  inputs,
+  globals,
+});
+
+export default panelsApp;
