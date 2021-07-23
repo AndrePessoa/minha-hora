@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "../App.scss";
@@ -11,6 +11,7 @@ import PanelResources from "./PanelResources.js";
 import PanelResult from "./PanelResult.js";
 import PanelFormComplete from "./PanelFormComplete.js";
 import PanelEnd from "./PanelEnd.js";
+import PanelIntro from "./PanelIntro.js";
 import useGlobals from "./hooks/useGlobals";
 
 /*import PanelEnd from "./PanelEnd.js";*/
@@ -32,6 +33,9 @@ function App() {
       ) : (
         <Router>
           <main>
+            <Link className="about" to="/intro">
+              + sobre o projeto
+            </Link>
             <div id="top">
               <div id="header">
                 <h1 id="logo">
@@ -49,6 +53,7 @@ function App() {
                 <Route path="/result" component={PanelResult} />
                 <Route path="/complete" component={PanelFormComplete} />
                 <Route path="/end" component={PanelEnd} />
+                <Route path="/intro" component={PanelIntro} />
                 <Route path="*" component={PanelSalary} />
               </Switch>
             </div>

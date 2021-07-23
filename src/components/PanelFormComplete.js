@@ -31,7 +31,7 @@ function PanelFormComplete() {
     const iobserver = new window.IntersectionObserver(([entry]) =>
       setIsSumVisible(entry.intersectionRatio)
     );
-    iobserver.observe(refResult.current.theInput);
+    iobserver.observe(refResult.current);
   }, []);
 
   const renderChart = () => {

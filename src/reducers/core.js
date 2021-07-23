@@ -39,12 +39,8 @@ export default Object.assign(
         this._calcSoftwareCost() +
         this._calcPlaceCost();
 
-      this.tax = this.tax
-        ? this.tax
-        : this._calcAutoTax(this.total_income / 12) * 12;
-
+      this.tax = this._calcAutoTax(this.total_income / 12) * 12;
       this.total_income = this.total_income + this.tax;
-
       this.perHour = this.total_income / this.payed_hours;
 
       return this.perHour;

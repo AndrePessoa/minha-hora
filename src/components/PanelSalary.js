@@ -14,7 +14,7 @@ function PanelSalary() {
   const { changeSalary, doReset } = useActions();
 
   useEffect(() => {
-    ref.current.theInput.focus();
+    ref.current.focus();
   }, []);
 
   const salary = inputs.salary;

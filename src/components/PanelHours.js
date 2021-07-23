@@ -85,7 +85,7 @@ function PanelHours() {
       <h2>E quantas horas por dia?</h2>
       <input
         type="number"
-        min="1"
+        min="0"
         max="24"
         name="hours"
         value={hours || 1}
