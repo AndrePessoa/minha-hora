@@ -244,7 +244,7 @@ nav {
     rgba(0, 0, 0, 0.13) 36%,
     rgba(0, 0, 0, 0.28) 100%
   );
-  background-color: #232c40;
+  background-color: #1c2330;
   background-position: bottom left;
   background-attachment: fixed;
   background-size: 200% 200%;
@@ -347,6 +347,16 @@ nav {
       pointer-events: none;
       color: #2a3346;
       cursor: default;
+
+      &.highlight {
+        color: #eff286;
+        box-shadow: 0px 0px 0px 1px #eff286;
+      }
+
+      &.error {
+        color: #f28686;
+        box-shadow: 0px 0px 0px 1px #f28686;
+      }
     }
 
     &:active {
@@ -504,6 +514,10 @@ nav {
       background: darken($yellow, 20);
       transition: all 0.2s;
     }
+  }
+
+  input[type="email"] {
+    margin-bottom: 24px;
   }
 
   .Select {
@@ -678,7 +692,7 @@ nav {
   text-decoration: none;
   border-radius: 0 0 10px 10px;
   color: #2b3346;
-  box-shadow: 0px -5px 0px #eff286, 2px 2px 2px rgba(114, 111, 111, 50%);
+  box-shadow: 0px -5px 0px #eff286, 2px 2px 2px #00000078;
   border-top: 1px solid #2b3346;
   transition: all 0.5s;
 

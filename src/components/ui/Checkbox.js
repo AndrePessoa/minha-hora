@@ -16,6 +16,7 @@ function Checkbox({ value, onChange, children }) {
     <div className="checkbox-wrapper">
       {children && <label>{children}</label>}
       <button
+        type="button"
         className={["checkbox", status ? "checked" : ""].join(" ")}
         onClick={handleChange}
       ></button>

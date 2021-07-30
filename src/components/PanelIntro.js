@@ -26,22 +26,22 @@ function PanelIntro() {
       <p>Olá!</p>
       <p>
         Esse projeto foi desenvolvido por mim,{" "}
-        <a href="http://www.apessoa.com">André Pessoa</a>, inicialmente para
-        auxiliar alguns amigos <strong>programadores e designers</strong> que
-        tentavam calcular qual seria o valor ideal para a sua hora de trabalho
-        para avaliar custos de projeto, e se valeria a pena trabalhar como
+        <a href="http://www.apessoa.com">André Pessoa</a>, para auxiliar alguns
+        amigos <strong>programadores e designers</strong> que tentavam calcular
+        qual seria o valor da sua hora de trabalho para orçar custos de projeto,
+        e se valeria a pena trabalhar como
         <strong> freelancer ou empregado</strong>.
       </p>
       <p>
         É muito comum que as pessoas não levem em consideração uma série de
-        custos relacionados, e após alguns meses de trabalho, mesmo tendo tido
+        custos relacionados e após alguns meses de trabalho, mesmo tendo tido
         diversos projetos, percebam que estão mais e mais sem dinheiro.
       </p>
       <p>
-        Essa página visa auxiliar em um cálculo mais preciso para evitar que
-        isso ocorra, mas acima de tudo ajudar a elencar os fatores que devemos
-        ter em consideração ao calcular nossos custos ao vender trabalho por
-        hora.
+        Essa calculadora visa ajudar a encontrar um valor mais preciso para
+        evitar que isso ocorra, mas acima de tudo ajudar a elencar os fatores
+        que devemos ter em consideração ao calcular nossos custos ao vender
+        trabalho por hora.
       </p>
       <p>
         Esta ferramenta não pretende ser uma solução definitiva, mas um primeiro

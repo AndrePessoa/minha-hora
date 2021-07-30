@@ -1,19 +1,31 @@
 import React, { useState } from "react";
 
 import Help from "./Help.js";
+import resultFormat from "./helpers/resultFormat.js";
+import useApi from "./hooks/useAPI.js";
+import useInputs from "./hooks/useInputs.js";
 import usePanels from "./hooks/usePanel.js";
 
 function PanelEnd() {
+  const { loading, result, post, error } = useApi(
+    "http://localhost:8100/enviar.php"
+  );
   const [closed, setClosed] = useState(true);
+  const { inputs } = useInputs();
   const [email, setEmail] = useState();
 
   const { nextPanel } = usePanels();
 
   const send = () => {
-    console.log(email);
-  };
+    const formatedValues = resultFormat(inputs);
 
-  const status = true;
+    if (email) {
+      post({
+        email,
+        ...formatedValues,
+      });
+    }
+  };
 
   return (
     <form
@@ -48,7 +60,6 @@ function PanelEnd() {
           status ? "" : "btn-disabled",
           !closed ? "hidden" : "",
         ].join(" ")}
-        disabled={!status}
         onClick={() => setClosed(false)}
       >
         me manda?
@@ -67,11 +78,24 @@ function PanelEnd() {
           onChange={(event) => setEmail(event.target.value)}
         />
         <button
-          className={["btn", status ? "" : "btn-disabled"].join(" ")}
-          disabled={!status}
+          className={[
+            "btn",
+            status ? "" : "btn-disabled",
+            loading ? "highlight" : "",
+            error ? "error" : "",
+          ].join(" ")}
+          disabled={loading || !email}
           onClick={send}
         >
-          pode mandar!
+          {error
+            ? error
+            : loading
+            ? "enviando..."
+            : !email
+            ? "vou precisar do seu email"
+            : result
+            ? "enviado! = )"
+            : "pode mandar!"}
         </button>
       </div>
     </form>

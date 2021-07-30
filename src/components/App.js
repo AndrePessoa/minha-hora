@@ -18,6 +18,7 @@ import useGlobals from "./hooks/useGlobals";
 import Illustrations from "./Illustrations.svg.js";
 import Logo from "./Logo.svg.js";
 import Loading from "./ui/Loading";
+import GoToIntro from "./ui/GoToIntro";
 
 function App() {
   const { loading, loadGlobals } = useGlobals();
@@ -33,9 +34,7 @@ function App() {
       ) : (
         <Router>
           <main>
-            <Link className="about" to="/intro">
-              + sobre o projeto
-            </Link>
+            <GoToIntro />
             <div id="top">
               <div id="header">
                 <h1 id="logo">

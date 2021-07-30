@@ -22,17 +22,21 @@ function getCaretPosition(elem) {
   return elem.selectionStart;
 }
 
-function formatToCurrency(value) {
+function cleanValue(value) {
+  return parseFloat(value.toString().replace(/[^0-9]/gi, "") || 0);
+}
+
+function formatToCurrency(value, fromCents = false) {
   const isCurrency = /R\$\s[0-9.]+,[0-9]{2}/gi.test(value);
-  let input = !value || !/R?\$?\s?[0-9.]+,?[0-9]+/gi.test(value) ? 0 : value;
+  let input = !value || !/R?\$?\s?[0-9.]+,?[0-9]*/gi.test(value) ? 0 : value;
   input = isCurrency ? input.replace(/\./gi, "").replace(/,/gi, ".") : input;
   const numberString = (input || "0").toString().replace(/[^0-9.]/gi, "");
-  const numberComplete = parseFloat(numberString).toFixed(2);
+  const numberComplete = parseFloat(numberString);
   const number = parseFloat(numberComplete);
   const currencyValue = currency(numberComplete, {
     pattern: `R$ #`,
     decimal: ",",
-    fromCents: true,
+    fromCents,
     separator: ".",
   }).format();
 
@@ -44,8 +48,12 @@ const CurrencyInput = React.forwardRef(
     const internalRef = useRef();
     const [blink, setBlink] = useState(false);
     const [valueInit] = useState(value);
-    const [val, setVal] = useState(() => formatToCurrency(value)[0]);
-    const [animaVal, setAnimaVal] = useAnimatedState(value, 400);
+    const [val, setVal] = useState(() => cleanValue(value));
+    const [animaVal, setAnimaVal] = useAnimatedState(
+      value,
+      600,
+      "easeInOutQuad"
+    );
 
     useEffect(() => {
       setVal(formatToCurrency(value)[0]);
@@ -62,25 +70,27 @@ const CurrencyInput = React.forwardRef(
         const inputDOM = ref?.current ?? internalRef?.current;
         const { value } = event.target;
         const caretPosition = getCaretPosition(inputDOM);
-        const [formatedValue, number] = formatToCurrency(value);
+        const justNumberValue = cleanValue(value) / 100;
+        console.log(justNumberValue, value);
+        const [formatedValue, number] = formatToCurrency(justNumberValue);
         const periodsPrev = (value.substr(0, caretPosition).match(/\./g) || [])
           .length;
         const periodsNext = (
           formatedValue.substr(0, caretPosition).match(/\./g) || []
         ).length;
         const periodsVariation = periodsNext - periodsPrev;
+        const goToCarret = Math.max(caretPosition + periodsVariation, 3);
 
-        setVal(formatedValue);
+        setVal(justNumberValue);
         onChange(number, name);
-        setTimeout(
-          () => setCaretPosition(inputDOM, caretPosition + periodsVariation),
-          0
-        );
+        setTimeout(() => setCaretPosition(inputDOM, goToCarret), 0);
       },
       [name, val]
     );
 
-    const displayValue = readOnly ? formatToCurrency(animaVal)[0] : val;
+    const displayValue = readOnly
+      ? formatToCurrency(animaVal)[0]
+      : formatToCurrency(val)[0];
 
     return (
       <input
