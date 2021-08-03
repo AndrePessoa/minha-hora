@@ -26,6 +26,8 @@ const formatTable = {
   selfprojects_time: percent,
   prospect_time: percent,
   securitymargin_time: percent,
+  total_hours: hours,
+  payed_hours: hours,
   hardware_buy_cost: currency,
   hardware_life_circle: months,
   hardware_sell_cost: currency,

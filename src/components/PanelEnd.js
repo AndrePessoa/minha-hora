@@ -6,9 +6,15 @@ import useApi from "./hooks/useAPI.js";
 import useInputs from "./hooks/useInputs.js";
 import usePanels from "./hooks/usePanel.js";
 
+const isEmail = (email) => {
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+};
+
 function PanelEnd() {
   const { loading, result, post, error } = useApi(
-    "http://localhost:8100/enviar.php"
+    "https://www.minhahora.entreoutros.com/v2/enviar.php"
   );
   const [closed, setClosed] = useState(true);
   const { inputs } = useInputs();
@@ -17,7 +23,10 @@ function PanelEnd() {
   const { nextPanel } = usePanels();
 
   const send = () => {
-    const formatedValues = resultFormat(inputs);
+    const formatedValues = resultFormat({
+      ...inputs,
+      tax: inputs.percents.taxPerYear / 12,
+    });
 
     if (email) {
       post({
@@ -84,14 +93,14 @@ function PanelEnd() {
             loading ? "highlight" : "",
             error ? "error" : "",
           ].join(" ")}
-          disabled={loading || !email}
+          disabled={loading || !isEmail(email)}
           onClick={send}
         >
           {error
             ? error
             : loading
             ? "enviando..."
-            : !email
+            : !isEmail(email)
             ? "vou precisar do seu email"
             : result
             ? "enviado! = )"

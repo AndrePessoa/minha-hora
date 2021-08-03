@@ -382,13 +382,18 @@ function PanelFormComplete() {
         <h3>Resultados</h3>
 
         <div className={["floatTotal", isSumVisible ? "hidden" : ""].join(" ")}>
-          <label>Valor por hora</label>
-          <CurrencyInput
-            name="perhour"
-            value={inputs.perHour}
-            readOnly
-            highlight
-          />
+          <Link className={["btn"].join(" ")} to={"/end"}>
+            Que legal! O que mais?
+          </Link>
+          <span>
+            <label>Valor por hora</label>
+            <CurrencyInput
+              name="perhour"
+              value={inputs.perHour}
+              readOnly
+              highlight
+            />
+          </span>
         </div>
 
         <div className="input-line">
