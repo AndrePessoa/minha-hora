@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import Analytics from "react-router-ga";
 
 import "../App.scss";
 import Nav from "./Nav.js";
@@ -33,30 +34,32 @@ function App() {
         <Loading />
       ) : (
         <Router>
-          <main>
-            <GoToIntro />
-            <div id="top">
-              <div id="header">
-                <h1 id="logo">
-                  <Logo />
-                  {loading && <div>Loading</div>}
-                </h1>
-                <Nav />
+          <Analytics id="UA-36805477-1">
+            <main>
+              <GoToIntro />
+              <div id="top">
+                <div id="header">
+                  <h1 id="logo">
+                    <Logo />
+                    {loading && <div>Loading</div>}
+                  </h1>
+                  <Nav />
+                </div>
               </div>
-            </div>
-            <div id="panels">
-              <Switch>
-                <Route path="/salary" component={PanelSalary} />
-                <Route path="/hours" component={PanelHours} />
-                <Route path="/resources" component={PanelResources} />
-                <Route path="/result" component={PanelResult} />
-                <Route path="/complete" component={PanelFormComplete} />
-                <Route path="/end" component={PanelEnd} />
-                <Route path="/intro" component={PanelIntro} />
-                <Route path="*" component={PanelSalary} />
-              </Switch>
-            </div>
-          </main>
+              <div id="panels">
+                <Switch>
+                  <Route path="/salary" component={PanelSalary} />
+                  <Route path="/hours" component={PanelHours} />
+                  <Route path="/resources" component={PanelResources} />
+                  <Route path="/result" component={PanelResult} />
+                  <Route path="/complete" component={PanelFormComplete} />
+                  <Route path="/end" component={PanelEnd} />
+                  <Route path="/intro" component={PanelIntro} />
+                  <Route path="*" component={PanelSalary} />
+                </Switch>
+              </div>
+            </main>
+          </Analytics>
         </Router>
       )}
     </div>

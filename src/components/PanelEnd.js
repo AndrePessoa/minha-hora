@@ -34,6 +34,9 @@ function PanelEnd() {
         ...formatedValues,
       });
     }
+    if (window?.ga) {
+      window.ga("send", "event", "Email", "envio", "Envio de email");
+    }
   };
 
   return (

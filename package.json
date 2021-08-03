@@ -17,6 +17,7 @@
     "react-redux": "^7.2.4",
     "react-router": "^4.3.1",
     "react-router-dom": "^5.2.0",
+    "react-router-ga": "^1.2.3",
     "react-scripts": "^4.0.3",
     "react-select": "^1.0.0-rc.10",
     "redux": "^4.1.0"
