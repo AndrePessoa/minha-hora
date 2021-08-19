@@ -1,0 +1,27 @@
+RewriteEngine on
+
+Options +FollowSymlinks
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.css$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.js$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.html$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.txt$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.jpg$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.svg$
+RewriteCond %{REQUEST_FILENAME} !^(.+)\.otf$
+
+RewriteCond %{REQUEST_URI} !\.otf$
+RewriteCond %{REQUEST_URI} !\.css$
+RewriteCond %{REQUEST_URI} !\.js$
+
+RewriteCond %{REQUEST_URI} !img/(.*)\.
+RewriteCond %{REQUEST_URI} !fonts/(.*)\.
+RewriteCond %{REQUEST_URI} !css/(.*)\.
+
+RewriteBase /
+
+RewriteRule (.*) index.html?p=$1
+

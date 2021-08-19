@@ -1,3 +1,4 @@
+import StateManager from "react-select";
 import coreFinMath from "./core";
 
 export const verifyPanels = (store) => (next) => (action) => {
@@ -39,8 +40,8 @@ export const verifyResult = (store) => (next) => (action) => {
 
       break;
     case "CHECK_RESULT":
-      const values = store.getState();
-      const complete = Object.values(values.panels).indexOf(false) == -1;
+      const state = store.getState();
+      const complete = Object.values(state.panels).indexOf(false) == -1;
 
       if (complete) {
         const inputs = store.getState().inputs;
@@ -58,6 +59,13 @@ export const verifyResult = (store) => (next) => (action) => {
           total_hours: totalHours,
           payed_hours: payedHours,
         });
+
+        if (perHour !== state.inputs.perHour) {
+          store.dispatch({
+            type: "UPDATE_SAVED",
+            value: false,
+          });
+        }
       }
 
     default:

@@ -71,7 +71,6 @@ const CurrencyInput = React.forwardRef(
         const { value } = event.target;
         const caretPosition = getCaretPosition(inputDOM);
         const justNumberValue = cleanValue(value) / 100;
-        console.log(justNumberValue, value);
         const [formatedValue, number] = formatToCurrency(justNumberValue);
         const periodsPrev = (value.substr(0, caretPosition).match(/\./g) || [])
           .length;

@@ -1,20 +1,29 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 
 import NumberFormat from "react-number-format";
 import { Doughnut as PieChart } from "react-chartjs-2";
+
+import config from "../config";
+
+import throttle from "./helpers/throttle";
+
 import Checkbox from "./ui/Checkbox.js";
 import CurrencyInput from "./ui/CurrencyInput";
 
 import useActions from "./hooks/useActions.js";
 import useInputs from "./hooks/useInputs.js";
 import usePanels from "./hooks/usePanel.js";
+import useApi from "./hooks/useAPI.js";
+import useGlobals from "./hooks/useGlobals.js";
 
 function PanelFormComplete() {
+  const { post } = useApi(`${config.apiUrl}/salvar`);
   const refSalary = useRef();
   const refResult = useRef();
   const { inputs } = useInputs();
   const { nextPanel } = usePanels();
+  const { saved, setSaved } = useGlobals();
   const {
     changeSalary,
     changeDays,
@@ -26,6 +35,29 @@ function PanelFormComplete() {
   } = useActions();
 
   const [isSumVisible, setIsSumVisible] = useState(1);
+
+  const send = useCallback(
+    throttle((values) => {
+      const promise = post({
+        ...values,
+      });
+
+      console.log("save");
+
+      if (window?.ga) {
+        window.ga("send", "event", "Email", "envio", "Salvando resultados");
+      }
+
+      return promise;
+    }, 1000),
+    [post]
+  );
+
+  useEffect(() => {
+    if (!saved) {
+      send(inputs).then(() => setSaved(true));
+    }
+  }, [saved]);
 
   useEffect(() => {
     const iobserver = new window.IntersectionObserver(([entry]) =>
@@ -284,7 +316,7 @@ function PanelFormComplete() {
           />
         </div>
         <div className="input-line">
-          <label>Ciclo de vida (meses)</label>
+          <label>Ciclo de vida do hardware (meses)</label>
           <input
             type="number"
             min="0"
@@ -297,7 +329,7 @@ function PanelFormComplete() {
           />
         </div>
         <div className="input-line">
-          <label>Preço de revenda</label>
+          <label>Preço de revenda do hardware</label>
           <CurrencyInput
             name="hardware_sell_cost"
             value={inputs.hardware_sell_cost}
@@ -314,7 +346,7 @@ function PanelFormComplete() {
           />
         </div>
         <div className="input-line">
-          <label>custo de software (assinaturas)</label>
+          <label>custo mensal de software (assinaturas)</label>
           <CurrencyInput
             name="software_rent_cost"
             value={inputs.software_rent_cost}

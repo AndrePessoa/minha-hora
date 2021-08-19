@@ -26,10 +26,10 @@ function PanelIntro() {
       <p>Olá!</p>
       <p>
         Esse projeto foi desenvolvido por mim,{" "}
-        <a href="http://www.apessoa.com">André Pessoa</a>, para auxiliar alguns
-        amigos <strong>programadores e designers</strong> que tentavam calcular
-        qual seria o valor da sua hora de trabalho para orçar custos de projeto,
-        e se valeria a pena trabalhar como
+        <a href="https://twitter.com/AndrePessoa">André Pessoa</a>, para
+        auxiliar alguns amigos <strong>programadores e designers</strong> que
+        tentavam calcular qual seria o valor da sua hora de trabalho para orçar
+        custos de projeto, e se valeria a pena trabalhar como
         <strong> freelancer ou empregado</strong>.
       </p>
       <p>

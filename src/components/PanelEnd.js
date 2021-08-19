@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import config from "../config";
+
 import Help from "./Help.js";
 import resultFormat from "./helpers/resultFormat.js";
 import useApi from "./hooks/useAPI.js";
@@ -13,9 +15,7 @@ const isEmail = (email) => {
 };
 
 function PanelEnd() {
-  const { loading, result, post, error } = useApi(
-    "https://www.minhahora.entreoutros.com/v2/enviar.php"
-  );
+  const { loading, result, post, error } = useApi(`${config.apiUrl}/enviar`);
   const [closed, setClosed] = useState(true);
   const { inputs } = useInputs();
   const [email, setEmail] = useState();

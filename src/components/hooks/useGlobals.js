@@ -7,7 +7,17 @@ function useGlobals() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const globals = useSelector((state) => state.globals);
-  const { rooms, areas } = globals;
+  const { rooms, areas, saved } = globals;
+
+  const setSaved = useCallback(
+    (value) => {
+      return dispatch({
+        type: "UPDATE_SAVED",
+        value,
+      });
+    },
+    [dispatch]
+  );
 
   const loadGlobals = useCallback(
     (url) => {
@@ -39,6 +49,8 @@ function useGlobals() {
     loading,
     rooms,
     areas,
+    saved,
+    setSaved,
   };
 }
 
