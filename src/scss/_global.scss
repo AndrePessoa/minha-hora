@@ -17,6 +17,7 @@
 }
 
 main {
+  position: relative;
   display: grid;
   grid-template-columns: 2fr 3fr;
   width: 100%;
@@ -707,6 +708,35 @@ nav {
   &:hover {
     background: white;
     top: 5px;
+  }
+}
+
+.coffee{
+  position: fixed;
+  bottom: 0;
+  right: 50%;
+  transform: translate(50%, 0);
+  background: rgb(202 202 202);
+  min-width: 35px;
+  height: 25px;
+  padding: 5px 35px 5px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: 10px 10px 0 0;
+  color: rgb(43 51 70);
+  border-top: 1px solid rgb(43 51 70);
+  transition: all 0.5s;
+
+  &:hover {
+    background: white;
+  }
+
+  @media screen and (max-width: $small-screen) {
+    & {
+      min-width: 60vw;
+    }
   }
 }
 

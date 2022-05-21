@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Analytics from "react-router-ga";
 
@@ -20,6 +20,7 @@ import Illustrations from "./Illustrations.svg.js";
 import Logo from "./Logo.svg.js";
 import Loading from "./ui/Loading";
 import GoToIntro from "./ui/GoToIntro";
+import PayMeACoffe from "./ui/PayMeACoffe";
 
 function App() {
   const { loading, loadGlobals } = useGlobals();
@@ -35,8 +36,9 @@ function App() {
       ) : (
         <Router>
           <Analytics id="UA-36805477-1">
+            <GoToIntro />
             <main>
-              <GoToIntro />
+              <PayMeACoffe />
               <div id="top">
                 <div id="header">
                   <h1 id="logo">
